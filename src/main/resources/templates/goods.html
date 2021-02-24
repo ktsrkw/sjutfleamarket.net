@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品详情</title>
+</head>
+<body>
+<h1>详情</h1>
+<h2 th:text="${goods.getTitle()}"></h2>
+<h3 th:text="￥+${goods.getPrice()}"></h3>
+<p>原价<s th:text="￥+${goods.getOriginalPrice()}"></s></p>
+<p th:text="${goods.getDescription()}"></p>
+<p th:text="${#dates.format(goods.getDeliveryTime(),'yyyy/MM/dd hh:mm')}"></p>
+<br/>
+<br/>
+<br/>
+<p>发布人联系方式</p>
+<p th:text="${user.getUsername()}"></p>
+<p th:text="'email:'+${user.getEmail()}"></p>
+</body>
+</html>

@@ -1,0 +1,16 @@
+spring:
+  thymeleaf:
+    #关闭了缓存，打包部署的时候记得开回来
+    cache: false
+  #配置连接数据库信息
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/sjutfleamarket?useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
+
+mybatis:
+  #给包中的实体类起别名
+  type-aliases-package: com.wt.pojo
+  #告诉mybatis配置文件在哪
+  mapper-locations: classpath:mapper/*.xml

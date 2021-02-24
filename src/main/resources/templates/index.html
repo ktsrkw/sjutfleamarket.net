@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h1>Here is Index</h1>
+<p>
+    分类
+    <a th:href="@{/goods/studysupplies}">学习用品</a>
+    <a th:href="@{/goods/transportation}">交通工具</a>
+    <a th:href="@{/goods/dailynecessities}">生活日用品</a>
+    <a th:href="@{/goods/clothing}">衣物</a>
+    <a th:href="@{/goods/electronicproduct}">电子产品</a>
+    <a th:href="@{/goods/books}">书籍</a>
+    <a th:href="@{/goods/othergoods}">其他</a>
+    <a th:href="@{/index}">全部</a>
+</p>
+
+<form th:action="@{/goods/search}">
+    <input type="text" name="searchContent">
+    <button type="submit">搜索</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>名称</th>
+        <th>购入时价格</th>
+        <th>转卖价格</th>
+        <th>分类</th>
+        <th>详细信息</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="everygoods:${goods}">
+        <td th:text="${everygoods.getTitle()}"></td>
+        <td th:text="￥+${everygoods.getOriginalPrice()}"></td>
+        <td th:text="￥+${everygoods.getPrice()}"></td>
+        <td th:text="${everygoods.getCategory()}"></td>
+        <td>
+            <a th:href="@{/goods/}+${everygoods.getGoodsid()}">查看</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p>
+    当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
+</p>
+
+<p>
+    <!--reqPath为当前请求路径-->
+    <a th:if="${pageInfo.hasPreviousPage}" th:href="${reqPath}+'pageNum=1'">首页</a>
+    <a th:if="${pageInfo.hasPreviousPage}" th:href="${reqPath}+'pageNum='+${pageInfo.prePage}">
+        前一页
+    </a>
+<p style="white-space:nowrap" th:each="nav:${pageInfo.navigatepageNums}">
+    <a th:href="${reqPath}+'pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+    <span th:if="${nav == pageInfo.pageNum}" th:text="${nav}"></span>
+</p>
+<a th:if="${pageInfo.hasNextPage}" th:href="${reqPath}+'pageNum='+${pageInfo.nextPage}">
+    下一页
+</a>
+<a th:if="${pageInfo.hasNextPage}" th:href="${reqPath}+'pageNum='+${pageInfo.pages}">尾页</a>
+</p>
+
+</body>
+</html>
