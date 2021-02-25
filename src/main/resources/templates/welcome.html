@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>松江大学城二手物品信息网</title>
@@ -7,5 +8,11 @@
 <body>
 <h1>Welcome to Songjiang University Town Flea Market</h1>
 <a th:href="@{/index}">进入市场</a>
+<div shiro:notAuthenticated=""><!--没有登陆时显示login-->
+    <a th:href="@{/login}">登录</a>
+</div>
+<div shiro:notAuthenticated=""><!--没有登陆时显示register-->
+    <a th:href="@{/register}">注册</a>
+</div>
 </body>
 </html>

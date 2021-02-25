@@ -21,4 +21,19 @@ public class UserServiceImpl implements UserService {
     public User getUserByGoodsid(int goodsid) {
         return userMapper.getUserByGoodsid(goodsid);
     }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userMapper.getUserByUsername(username);
+    }
+
+    @Override
+    public int insertAnUserWithBirthday(User user) {
+        return userMapper.insertAnUserWithBirthday(user);
+    }
+
+    @Override
+    public int insertAnUserWithoutBirthday(User user) {
+        return userMapper.insertAnUserWithoutBirthday(user);
+    }
 }

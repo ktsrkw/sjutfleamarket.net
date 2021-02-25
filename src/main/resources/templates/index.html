@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>首页</title>
 </head>
 <body>
 <h1>Here is Index</h1>
+<div shiro:notAuthenticated=""><!--没有登陆时显示login-->
+    <a th:href="@{/login}">登录</a>
+</div>
+<div shiro:notAuthenticated=""><!--没有登陆时显示register-->
+    <a th:href="@{/register}">注册</a>
+</div>
+<div shiro:authenticated=""><!--登陆后显示logout-->
+    <a th:href="@{/logout}">退出登录</a>
+</div>
 <p>
     分类
     <a th:href="@{/goods/studysupplies}">学习用品</a>

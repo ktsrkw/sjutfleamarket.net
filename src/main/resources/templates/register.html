@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+    <form th:action="@{/register}" method="post">
+        邮箱（必填）<input type="text" name="email">
+        <p th:text="${msg02}" style="color:red"></p>
+        <p th:text="${msg07}" style="color:red"></p>
+        <br/>
+        用户名（必填）<input type="text" name="username">
+        <p th:text="${msg03}" style="color:red"></p>
+        <p th:text="${msg06}" style="color:red"></p>
+        <br/>
+        密码（必填）<input type="password" name="password">
+        <p th:text="${msg04}" style="color:red"></p>
+        <br/>
+        确认密码<input type="password" name="passwordConfirm">
+        <p th:text="${msg05}" style="color:red"></p>
+        <br/>
+        生日<input type="date" name="birthdayDateString">
+        <br/>
+        性别
+        <select name="gender">
+            <option value="保密">保密</option>
+            <option value="男">男</option>
+            <option value="女">女</option>
+        </select>
+        <br/>
+        学校
+        <select name="university">
+            <option value="上海外国语大学">上海外国语大学</option>
+            <option value="东华大学">东华大学</option>
+            <option value="华东政法大学">华东政法大学</option>
+            <option value="上海对外经贸大学">上海对外经贸大学</option>
+            <option value="上海立信会计金融学院">上海立信会计金融学院</option>
+            <option value="上海工程技术大学">上海工程技术大学</option>
+            <option value="上海视觉艺术学院">上海视觉艺术学院</option>
+        </select>
+        <br/>
+        电话<input type="text" value="tele">
+        <br/>
+        其他联系方式<textarea rows="3" cols="4" name="oci"></textarea>
+        <br/>
+        <button>注册</button>
+    </form>
+</body>
+</html>

@@ -10,4 +10,17 @@
     <select id="getUserByGoodsid" resultType="User">
         select * from `user` where `userid`=(select `userid` from `goods` where `goodsid`=#{goodsid})
     </select>
+
+    <select id="getUserByUsername" parameterType="String" resultType="User">
+        select * from `user` where `username`=#{username} or `email`=#{username}
+    </select>
+
+    <insert id="insertAnUserWithBirthday" parameterType="User">
+        insert into `user`(`username`,`password`,`birthday`,`gender`,`university`,`email`,`tele`,`oci`)
+        values (#{username},#{password},#{birthday},#{gender},#{university},#{email},#{tele},#{oci})
+    </insert>
+    <insert id="insertAnUserWithoutBirthday" parameterType="User">
+        insert into `user`(`username`,`password`,`gender`,`university`,`email`,`tele`,`oci`)
+        values (#{username},#{password},#{gender},#{university},#{email},#{tele},#{oci})
+    </insert>
 </mapper>
