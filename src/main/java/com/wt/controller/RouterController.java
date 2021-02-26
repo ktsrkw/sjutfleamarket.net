@@ -10,6 +10,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,6 +48,18 @@ public class RouterController {
 //        List<Goods> goods = goodsService.getAllGoods();
 //        model.addAttribute("goods",goods);
 
+        //如果登录了，在index页显示当前登录用户的用户名
+        //获取session
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        //通过session判断用户是否登录
+        //如果用户登陆了，把当前用户名带给前端
+        if(session.getAttribute("username") != null){
+            model.addAttribute("username",session.getAttribute("username").toString());
+            model.addAttribute("userid",(Integer)session.getAttribute("userid"));
+        }
+
+        //分页的一些操作
         if (pageNum == null) {
             pageNum = 1;
         }  //设置默认当前页
@@ -101,6 +114,11 @@ public class RouterController {
         //检查用户登录数据
         try{
             subject.login(token);
+            //如果成功登录，将用户名存入session
+            //拿到登录的用户对象，再从此对象拿到用户名，这样用户通过邮箱登陆时也能拿到username
+            User user = userService.getUserByUsername(username);
+            subject.getSession().setAttribute("username",user.getUsername());
+            subject.getSession().setAttribute("userid",user.getUserid());
             return "redirect:/index";
         }catch(UnknownAccountException uae){
             model.addAttribute("msg01","用户名或邮箱不存在");
@@ -115,7 +133,7 @@ public class RouterController {
     @GetMapping("/logout")
     public String logout(){
         Subject subject = SecurityUtils.getSubject();//先获取当前用户对象
-        subject.logout();//再执行登出
+        subject.logout();//执行登出
 
         return "redirect:/index";
     }
@@ -148,10 +166,6 @@ public class RouterController {
 
         //检查两次输入的密码是否一致
         if(!user.getPassword().equals(passwordConfirm)){
-            System.out.println(user.getPassword().getClass().getName());
-            System.out.println(user.getPassword());
-            System.out.println(passwordConfirm.getClass().getName());
-            System.out.println(passwordConfirm);
             model.addAttribute("msg05","两次输入的密码不一致");
             return "/register";
         }
@@ -182,6 +196,56 @@ public class RouterController {
         }
 
         return "registersuccess";
+    }
+
+    @GetMapping("/user/{userid}")
+    public String userAdmin(@PathVariable Integer userid,Model model){
+        //拿到用户的所有信息，送到前台
+        User user = userService.getUserById(userid);
+        model.addAttribute("user",user);
+
+        return "admin";
+    }
+
+    //处理用户修改用户信息
+    @PostMapping("/user/update")
+    public String updateUser(User user,
+                             @PathParam("passwordConfirm") String passwordConfirm,
+                             @PathParam("birthdayDate") String birthdayDate,
+                             Model model) throws ParseException {
+        //修改信息时三个不能为空的检查
+        if(user.getEmail().equals("")){
+            model.addAttribute("msg08","邮箱不能为空");
+            return "admin";
+        }
+        if(user.getUsername().equals("")){
+            model.addAttribute("msg09","用户名不能为空");
+            return "admin";
+        }
+        if(user.getPassword().equals("")){
+            model.addAttribute("msg10","密码不能为空");
+            return "admin";
+        }
+
+        //检查两次输入的密码是否一致
+        if(!user.getPassword().equals(passwordConfirm)){
+            model.addAttribute("msg11","两次输入的密码不一致");
+            return "admin";
+        }
+
+        //判断是否输入了日期
+        if(!birthdayDate.equals("")){
+            //输入了日期，处理日期的格式，装入对象中
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date birthday = format.parse(birthdayDate);
+            user.setBirthday(birthday);
+            userService.updateUserWithBirthday(user);
+        }else {
+            //没有输入日期，走这里
+            userService.updateUserWithoutBirthday(user);
+        }
+
+        return "redirect:/index";
     }
 
 }

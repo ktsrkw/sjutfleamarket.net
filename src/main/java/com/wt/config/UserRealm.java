@@ -1,5 +1,6 @@
 package com.wt.config;
 
+import com.wt.pojo.User;
 import com.wt.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

@@ -13,6 +13,10 @@
 <div shiro:notAuthenticated=""><!--没有登陆时显示register-->
     <a th:href="@{/register}">注册</a>
 </div>
+
+<div shiro:authenticated=""><!--登陆后显示username，点击进入该user的后台管理界面-->
+    <a th:text="${username}" th:href="@{/user/}+${userid}"></a>
+</div>
 <div shiro:authenticated=""><!--登陆后显示logout-->
     <a th:href="@{/logout}">退出登录</a>
 </div>

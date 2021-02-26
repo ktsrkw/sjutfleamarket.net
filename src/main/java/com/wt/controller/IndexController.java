@@ -5,6 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.wt.pojo.Goods;
 import com.wt.service.GoodsService;
 import com.wt.service.UserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,16 @@ public class IndexController {
                               Model model,
                               @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                               @RequestParam(defaultValue = "3", value = "pageSize") Integer pageSize) {
+        //如果登录了，在页面显示当前登录用户的用户名
+        //获取session
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        //通过session判断用户是否登录
+        //如果用户登陆了，把当前用户名带给前端
+        if(session.getAttribute("username") != null){
+            model.addAttribute("username",session.getAttribute("username").toString());
+        }
+
         if (pageNum == null) {
             pageNum = 1;
         } //设置默认当前页
@@ -60,6 +73,12 @@ public class IndexController {
     public String getStudySupplies(Model model,
                                    @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                                    @RequestParam(defaultValue = "3", value = "pageSize") Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        if(session.getAttribute("username") != null){
+            model.addAttribute("username",session.getAttribute("username").toString());
+        }
+
         if (pageNum == null) {
             pageNum = 1;
         } //设置默认当前页
@@ -90,6 +109,12 @@ public class IndexController {
     public String getTransportation(Model model,
                                     @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                                     @RequestParam(defaultValue = "3", value = "pageSize") Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        if(session.getAttribute("username") != null){
+            model.addAttribute("username",session.getAttribute("username").toString());
+        }
+
         if (pageNum == null) {
             pageNum = 1;
         } //设置默认当前页
@@ -120,6 +145,12 @@ public class IndexController {
     public String getDailyNecessities(Model model,
                                       @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                                       @RequestParam(defaultValue = "3", value = "pageSize") Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        if(session.getAttribute("username") != null){
+            model.addAttribute("username",session.getAttribute("username").toString());
+        }
+
         if (pageNum == null) {
             pageNum = 1;
         } //设置默认当前页
@@ -150,6 +181,12 @@ public class IndexController {
     public String getClothing(Model model,
                               @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                               @RequestParam(defaultValue = "3", value = "pageSize") Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        if(session.getAttribute("username") != null){
+            model.addAttribute("username",session.getAttribute("username").toString());
+        }
+
         if (pageNum == null) {
             pageNum = 1;
         } //设置默认当前页
@@ -180,6 +217,12 @@ public class IndexController {
     public String getElectronicProduct(Model model,
                                        @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                                        @RequestParam(defaultValue = "3", value = "pageSize") Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        if(session.getAttribute("username") != null){
+            model.addAttribute("username",session.getAttribute("username").toString());
+        }
+
         if (pageNum == null) {
             pageNum = 1;
         } //设置默认当前页
@@ -210,6 +253,12 @@ public class IndexController {
     public String getBooks(Model model,
                            @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                            @RequestParam(defaultValue = "3", value = "pageSize") Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        if(session.getAttribute("username") != null){
+            model.addAttribute("username",session.getAttribute("username").toString());
+        }
+
         if (pageNum == null) {
             pageNum = 1;
         } //设置默认当前页
@@ -240,6 +289,12 @@ public class IndexController {
     public String getOtherGoods(Model model,
                                 @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
                                 @RequestParam(defaultValue = "3", value = "pageSize") Integer pageSize) {
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        if(session.getAttribute("username") != null){
+            model.addAttribute("username",session.getAttribute("username").toString());
+        }
+
         if (pageNum == null) {
             pageNum = 1;
         } //设置默认当前页

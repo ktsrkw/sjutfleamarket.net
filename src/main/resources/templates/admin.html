@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台管理</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">layui 后台布局</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <p th:text="${user.getUsername()}"></p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item">
+                    <a href="">账户设置</a>
+                </li>
+                <li class="layui-nav-item"><a href="">发布闲置物品</a></li>
+                <li class="layui-nav-item"><a href="">管理我的发布</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <form th:action="@{/user/update}" method="post">
+            <input type="hidden" th:value="${user.getUserid()}" name="userid">
+            邮箱<input type="text" th:value="${user.getEmail()}" name="email">
+            <p th:text="${msg08}" style="color:red"></p>
+            <br/>
+            用户名<input type="text" th:value="${user.getUsername()}" name="username">
+            <p th:text="${msg09}" style="color:red"></p>
+            <br/>
+            密码<input type="password" th:value="${user.getPassword()}" name="password">
+            <p th:text="${msg10}" style="color:red"></p>
+            <br/>
+            确认密码<input type="password" th:value="${user.getPassword()}" name="passwordConfirm">
+            <p th:text="${msg11}" style="color:red"></p>
+            <br/>
+            生日<input type="text" th:value="${#dates.format(user.getBirthday(),'yyyy-MM-dd')}" 	readonly>
+            选择日期<input type="date" name="birthdayDate">
+            <br/>
+            性别
+            <select name="gender">
+                <option th:selected="${user.getGender().equals('保密')}" value="保密">保密</option>
+                <option th:selected="${user.getGender().equals('男')}" value="男">男</option>
+                <option th:selected="${user.getGender().equals('女')}" value="女">女</option>
+            </select>
+            <br/>
+            学校
+            <select name="university">
+                <option th:selected="${user.getUniversity().equals('上海外国语大学')}" value="上海外国语大学">上海外国语大学</option>
+                <option th:selected="${user.getUniversity().equals('东华大学')}" value="东华大学">东华大学</option>
+                <option th:selected="${user.getUniversity().equals('华东政法大学')}" value="华东政法大学">华东政法大学</option>
+                <option th:selected="${user.getUniversity().equals('上海对外经贸大学')}" value="上海对外经贸大学">上海对外经贸大学</option>
+                <option th:selected="${user.getUniversity().equals('上海立信会计金融学院')}" value="上海立信会计金融学院">上海立信会计金融学院</option>
+                <option th:selected="${user.getUniversity().equals('上海工程技术大学')}" value="上海工程技术大学">上海工程技术大学</option>
+                <option th:selected="${user.getUniversity().equals('上海视觉艺术学院')}" value="上海视觉艺术学院">上海视觉艺术学院</option>
+            </select>
+            <br/>
+            电话<input type="text" th:value="${user.getTele()}" name="tele">
+            <br/>
+            其他联系方式<input type="text" th:value="${user.getOci()}" name="oci">
+            <br/>
+            <button type="submit">保存修改</button>
+        </form>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script th:src="@{/js/layui.js}"></script>
+<script>
+    //JavaScript代码区域
+    // layui.use('element', function(){
+    //     var element = layui.element;
+    //
+    // });
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

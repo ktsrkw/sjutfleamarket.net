@@ -31,6 +31,7 @@ public class ShiroConfig {
         //开始配置过滤规则
         Map<String,String> filterMap = new LinkedHashMap<>();//用个map来存规则
         //filterMap.put("/index","authc");//测试用，规定首页必须登陆了才能访问
+
         bean.setFilterChainDefinitionMap(filterMap);//添加自己配置的拦截规则
         bean.setLoginUrl("/login");//如果没有登录访问页面被拦截，则跳到登录页，设置能跳到登录页的请求路径
 

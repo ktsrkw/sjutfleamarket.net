@@ -18,6 +18,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserById(int userid) {
+        return userMapper.getUserById(userid);
+    }
+
+    @Override
     public User getUserByGoodsid(int goodsid) {
         return userMapper.getUserByGoodsid(goodsid);
     }
@@ -35,5 +40,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public int insertAnUserWithoutBirthday(User user) {
         return userMapper.insertAnUserWithoutBirthday(user);
+    }
+
+    @Override
+    public int updateUserWithBirthday(User user) {
+        return userMapper.updateUserWithBirthday(user);
+    }
+
+    @Override
+    public int updateUserWithoutBirthday(User user) {
+        return userMapper.updateUserWithoutBirthday(user);
     }
 }

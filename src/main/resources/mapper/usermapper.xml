@@ -23,4 +23,21 @@
         insert into `user`(`username`,`password`,`gender`,`university`,`email`,`tele`,`oci`)
         values (#{username},#{password},#{gender},#{university},#{email},#{tele},#{oci})
     </insert>
+
+    <select id="getUserById" resultType="User">
+        select * from `user` where `userid`=#{userid}
+    </select>
+
+    <update id="updateUserWithBirthday" parameterType="User">
+        update `user` set `username`=#{username},`password`=#{password},`birthday`=#{birthday},
+                          `university`=#{university},`email`=#{email},`tele`=#{tele},
+                          `oci`=#{oci},`gender`=#{gender}
+                        where `userid`=#{userid}
+    </update>
+    <update id="updateUserWithoutBirthday" parameterType="User">
+        update `user` set `username`=#{username},`password`=#{password},
+                          `university`=#{university},`email`=#{email},`tele`=#{tele},
+                          `oci`=#{oci},`gender`=#{gender}
+        where `userid`=#{userid}
+    </update>
 </mapper>
