@@ -3,8 +3,10 @@ package com.wt.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wt.pojo.Goods;
+import com.wt.pojo.Images;
 import com.wt.pojo.User;
 import com.wt.service.GoodsService;
+import com.wt.service.ImagesService;
 import com.wt.service.UserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -17,12 +19,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 public class RouterController {
@@ -33,6 +40,10 @@ public class RouterController {
     @Autowired
     @Qualifier("goodsServiceImpl")
     GoodsService goodsService;
+
+    @Autowired
+    @Qualifier("imagesServiceImpl")
+    ImagesService imagesService;
 
     @RequestMapping({"/", "/welcome"})
     public String toWelcomePage() {
@@ -117,8 +128,11 @@ public class RouterController {
             //如果成功登录，将用户名存入session
             //拿到登录的用户对象，再从此对象拿到用户名，这样用户通过邮箱登陆时也能拿到username
             User user = userService.getUserByUsername(username);
+
+            //向session中存入当前用户名与id
             subject.getSession().setAttribute("username",user.getUsername());
             subject.getSession().setAttribute("userid",user.getUserid());
+
             return "redirect:/index";
         }catch(UnknownAccountException uae){
             model.addAttribute("msg01","用户名或邮箱不存在");
@@ -243,6 +257,96 @@ public class RouterController {
         }else {
             //没有输入日期，走这里
             userService.updateUserWithoutBirthday(user);
+        }
+
+        return "redirect:/index";
+    }
+
+    //实现注销账户
+    @GetMapping("/cancelaccount/{userid}")
+    public String cancelAccount(@PathVariable int userid){
+        //调service层，根据userid删除用户表的记录
+        userService.deleteUserById(userid);
+
+        //由于缓存的存在，所以效果不能马上看到，主动帮用户退出登录
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+
+        return "redirect:/welcome";
+    }
+
+    @GetMapping("/releasegoods")
+    public String toReleasePage(Model model){
+        //用户名拿到前台
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+
+        model.addAttribute("username",session.getAttribute("username"));
+
+        return "releasegoods";
+    }
+
+    //处理发布商品表单发的请求，处理上传的图片
+    @PostMapping("/releasegoods")
+    public String releaseGoods(Model model,
+                               Goods goods,
+                               MultipartFile[] uploadFiles,
+                               HttpServletRequest request){
+        //获取当前时间
+        goods.setDeliveryTime(new Date());
+
+        //userid的添加
+        //之前执行登录代码的时候向session中添加了用户名与id
+        //这里拿到userid以填充goods表的userid字段
+        //先拿到subject，再通过subject拿到session
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        //向goods对象中添加userid数据
+        goods.setUserid((int)session.getAttribute("userid"));
+
+        //增加一条商品信息
+        goodsService.addAGoods(goods);
+
+        //插入成功后，db会自动生成goodsid，需要拿到这个goodsid，以作为下面图片的外键
+        //根据商品名查库以拿到商品的id
+        Goods goods1 = goodsService.getGoodsByTitle(goods.getTitle());
+        int goodsid = goods1.getGoodsid();
+
+        for(MultipartFile uploadFile : uploadFiles){
+            //处理上传的图片
+            try{
+                //处理上传文件的步骤
+
+                //1、创建文件在服务器端的存放路径
+                String imgPath = "D:\\codes\\resources\\sjut-flea-market-user-upload";
+                File imgDir = new File(imgPath);
+
+                //2、生成文件在服务器端存放的名字（避免重名）
+                //得到上传文件的后缀名（.jpg，.txt，.mp4 ...）
+                String fileSuffix= Objects.requireNonNull(uploadFile.getOriginalFilename())
+                        .substring(uploadFile.getOriginalFilename().lastIndexOf("."));
+                //给文件准备好一个新的名字imgNewName：随机生成的UUID再加上前面取得的文件后缀名
+                String imgNewName= UUID.randomUUID().toString()+fileSuffix;
+                File uploadedFile = new File(imgDir+"/"+imgNewName);
+
+                //3、上传
+                uploadFile.transferTo(uploadedFile);
+
+                //4、获取上传文件的访问路径
+                //这里的images是映射路径，实际不是存储在这的
+                String filePath = request.getScheme() + "://" + request.getServerName() + ":"
+                        + request.getServerPort() + "/images/" + imgNewName;
+
+                //创建一个对象，添加到数据库中
+                Images images = new Images(filePath,goodsid);
+                imagesService.addAnImage(images);
+
+
+            }catch(Exception e) {
+                //图片上传失败，跳转到失败页面
+                e.printStackTrace();
+                return "imagesuploadfailed";
+            }
         }
 
         return "redirect:/index";

@@ -40,4 +40,8 @@
                           `oci`=#{oci},`gender`=#{gender}
         where `userid`=#{userid}
     </update>
+
+    <delete id="deleteUserById" parameterType="int">
+        delete from `user` where `userid`=#{userid}
+    </delete>
 </mapper>

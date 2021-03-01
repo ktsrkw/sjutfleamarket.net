@@ -7,7 +7,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://localhost:3306/sjutfleamarket?useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/sjutfleamarket?useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai&useSSL=true
+  #配置上传文件的配置
+  servlet:
+    multipart:
+      #配置一次上传单个文件最大为10MB
+      max-file-size: 10MB
 
 mybatis:
   #给包中的实体类起别名

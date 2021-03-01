@@ -16,4 +16,11 @@ public interface GoodsService {
 
     //根据输入模糊查询名称得到商品
     List<Goods> getGoodsByInputName(String searchContent);
+
+    //增加一条商品记录
+    int addAGoods(Goods goods);
+
+    //根据商品名得到商品的信息
+    Goods getGoodsByTitle(String title);
+
 }

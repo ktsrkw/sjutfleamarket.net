@@ -26,7 +26,7 @@
                 <li class="layui-nav-item">
                     <a href="">账户设置</a>
                 </li>
-                <li class="layui-nav-item"><a href="">发布闲置物品</a></li>
+                <li class="layui-nav-item"><a th:href="@{/releasegoods}">发布闲置物品</a></li>
                 <li class="layui-nav-item"><a href="">管理我的发布</a></li>
             </ul>
         </div>
@@ -75,6 +75,7 @@
             <br/>
             <button type="submit">保存修改</button>
         </form>
+        <a th:href="@{/cancelaccount/}+${user.getUserid()}">注销此账户</a>
     </div>
 
     <div class="layui-footer">

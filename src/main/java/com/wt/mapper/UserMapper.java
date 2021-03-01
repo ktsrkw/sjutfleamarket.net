@@ -32,4 +32,7 @@ public interface UserMapper {
 
     //更新用户的信息(没有生日数据)
     int updateUserWithoutBirthday(User user);
+
+    //根据id删除用户表的记录
+    int deleteUserById(int userid);
 }

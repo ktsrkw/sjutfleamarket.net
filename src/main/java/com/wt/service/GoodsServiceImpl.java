@@ -31,4 +31,14 @@ public class GoodsServiceImpl implements GoodsService {
     public List<Goods> getGoodsByInputName(String searchContent) {
         return goodsMapper.getGoodsByInputName(searchContent);
     }
+
+    @Override
+    public int addAGoods(Goods goods) {
+        return goodsMapper.addAGoods(goods);
+    }
+
+    @Override
+    public Goods getGoodsByTitle(String title) {
+        return goodsMapper.getGoodsByTitle(title);
+    }
 }

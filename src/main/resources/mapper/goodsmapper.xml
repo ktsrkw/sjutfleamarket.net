@@ -19,4 +19,15 @@
         select * from `goods` where `title` like concat('%',#{searchContent},'%')
         or `category` like concat('%',#{searchContent},'%')
     </select>
+
+    <insert id="addAGoods" parameterType="Goods">
+        insert into `goods`(`userid`,`deliveryTime`,`title`,`description`,
+                            `category`,`originalPrice`,`price`,`status`)
+                values (#{userid},#{deliveryTime},#{title},#{description},
+                        #{category},#{originalPrice},#{price},#{status})
+    </insert>
+
+    <select id="getGoodsByTitle" parameterType="String" resultType="Goods">
+        select * from `goods` where `title`=#{title}
+    </select>
 </mapper>

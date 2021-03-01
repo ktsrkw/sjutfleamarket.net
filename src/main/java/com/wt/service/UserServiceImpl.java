@@ -51,4 +51,9 @@ public class UserServiceImpl implements UserService {
     public int updateUserWithoutBirthday(User user) {
         return userMapper.updateUserWithoutBirthday(user);
     }
+
+    @Override
+    public int deleteUserById(int userid) {
+        return userMapper.deleteUserById(userid);
+    }
 }
