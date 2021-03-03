@@ -9,6 +9,7 @@
 <h2 th:text="${goods.getTitle()}"></h2>
 <h3 th:text="￥+${goods.getPrice()}"></h3>
 <p>原价<s th:text="￥+${goods.getOriginalPrice()}"></s></p>
+<img th:each="image:${images}" th:src="${image.getImgurl()}" height="200" width="400">
 <p th:text="${goods.getDescription()}"></p>
 <p th:text="${#dates.format(goods.getDeliveryTime(),'yyyy/MM/dd hh:mm')}"></p>
 <br/>
@@ -17,5 +18,13 @@
 <p>发布人联系方式</p>
 <p th:text="${user.getUsername()}"></p>
 <p th:text="'email:'+${user.getEmail()}"></p>
+
+<!--展示评论-->
+<div th:each="comment:${comments}">
+    <p>-------------------------------</p>
+    <p>发表人：[[${usernameByCommentid.get(comment.getCommentid())}]]</p>
+    <p th:text="${comment.getContent()}"></p>
+    <p th:text="${#dates.format(comment.getCommentDeliveryTime(),'yyyy/MM/dd hh:mm')}"></p>
+</div>
 </body>
 </html>

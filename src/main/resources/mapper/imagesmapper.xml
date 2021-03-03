@@ -6,4 +6,8 @@
     <insert id="addAnImage" parameterType="Images">
         insert into `images`(`imgurl`,`goodsid`) values (#{imgurl},#{goodsid})
     </insert>
+
+    <select id="getImagesByGoodsId" resultType="Images">
+        select * from `images` where `goodsid`=#{goodsid}
+    </select>
 </mapper>

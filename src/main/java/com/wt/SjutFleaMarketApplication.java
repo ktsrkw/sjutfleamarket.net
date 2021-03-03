@@ -10,4 +10,6 @@ public class SjutFleaMarketApplication {
         SpringApplication.run(SjutFleaMarketApplication.class, args);
     }
 
+
+
 }

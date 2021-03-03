@@ -2,9 +2,11 @@ package com.wt.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wt.pojo.Comment;
 import com.wt.pojo.Goods;
 import com.wt.pojo.Images;
 import com.wt.pojo.User;
+import com.wt.service.CommentService;
 import com.wt.service.GoodsService;
 import com.wt.service.ImagesService;
 import com.wt.service.UserService;
@@ -26,10 +28,7 @@ import javax.websocket.server.PathParam;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class RouterController {
@@ -44,6 +43,10 @@ public class RouterController {
     @Autowired
     @Qualifier("imagesServiceImpl")
     ImagesService imagesService;
+
+    @Autowired
+    @Qualifier("commentServiceImpl")
+    CommentService commentService;
 
     @RequestMapping({"/", "/welcome"})
     public String toWelcomePage() {
@@ -101,9 +104,28 @@ public class RouterController {
         Goods goods = goodsService.getGoodsById(goodsid);
         model.addAttribute("goods", goods);
 
+        //根据goodsid拿到图片的信息
+        List<Images> images = imagesService.getImagesByGoodsId(goodsid);
+        model.addAttribute("images",images);
+
         //根据商品id得到发布者信息
         User user = userService.getUserByGoodsid(goodsid);
         model.addAttribute("user", user);
+
+        //根据goodsid拿到所有评论
+        List<Comment> comments = commentService.getCommentsByGoodsId(goodsid);
+        model.addAttribute("comments",comments);
+
+        //根据评论对象中的userid得到用户名并联系commentid存在map中
+        Map<Integer,String> usernameByCommentid = new HashMap<Integer,String>();
+        for(Comment comment : comments){
+            //根据userid得到user
+            User user1 = userService.getUserById(comment.getUserid());
+            //以<commentid,username>的形式存在map中
+            usernameByCommentid.put(comment.getCommentid(),user1.getUsername());
+        }
+        model.addAttribute("usernameByCommentid",usernameByCommentid);
+
 
         return "goods";
     }
@@ -288,8 +310,7 @@ public class RouterController {
 
     //处理发布商品表单发的请求，处理上传的图片
     @PostMapping("/releasegoods")
-    public String releaseGoods(Model model,
-                               Goods goods,
+    public String releaseGoods(Goods goods,
                                MultipartFile[] uploadFiles,
                                HttpServletRequest request){
         //获取当前时间
