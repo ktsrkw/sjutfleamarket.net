@@ -30,4 +30,8 @@
     <select id="getGoodsByTitle" parameterType="String" resultType="Goods">
         select * from `goods` where `title`=#{title}
     </select>
+
+    <select id="getGoodsByUserid" resultType="Goods">
+        select * from `goods` where `userid`=#{userid}
+    </select>
 </mapper>

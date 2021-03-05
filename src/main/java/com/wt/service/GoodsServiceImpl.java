@@ -41,4 +41,9 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods getGoodsByTitle(String title) {
         return goodsMapper.getGoodsByTitle(title);
     }
+
+    @Override
+    public List<Goods> getGoodsByUserid(int userid) {
+        return goodsMapper.getGoodsByUserid(userid);
+    }
 }

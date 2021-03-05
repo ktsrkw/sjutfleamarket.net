@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台管理</title>
+    <link rel="stylesheet" th:href="@{/css/layui.css}">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">layui 后台布局</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <p th:text="${username}"></p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item">
+                    <a th:href="@{/user/}+${userid}">账户设置</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/releasegoods}">发布闲置物品</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="">管理我的发布</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <table class="layui-table">
+<!--            <colgroup>-->
+<!--                <col width="150">-->
+<!--                <col width="200">-->
+<!--                <col>-->
+<!--            </colgroup>-->
+            <!--上面的可以操纵宽度-->
+            <thead>
+            <tr>
+                <th>商品名</th>
+                <th>发布时间</th>
+                <th>商品标价/商品原价</th>
+                <th>商品状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="good:${goods}">
+                <td th:text="${good.getTitle()}"></td>
+                <td th:text="${#dates.format(good.getDeliveryTime(),'yyyy/MM/dd hh:mm')}"></td>
+                <td>[[${good.getPrice()}]] / [[${good.getOriginalPrice()}]]</td>
+                <td th:text="${good.getStatus()==1?'在售':'下架'}"></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+<script th:src="@{/js/layui.js}"></script>
+</script>
+</body>
+</html>

@@ -26,8 +26,12 @@
                 <li class="layui-nav-item">
                     <a href="">账户设置</a>
                 </li>
-                <li class="layui-nav-item"><a th:href="@{/releasegoods}">发布闲置物品</a></li>
-                <li class="layui-nav-item"><a href="">管理我的发布</a></li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/releasegoods}">发布闲置物品</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/managergoods}">管理我的发布</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -85,11 +89,6 @@
 </div>
 <script th:src="@{/js/layui.js}"></script>
 <script>
-    //JavaScript代码区域
-    // layui.use('element', function(){
-    //     var element = layui.element;
-    //
-    // });
     layui.use('form', function(){
         var form = layui.form;
 

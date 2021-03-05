@@ -27,4 +27,7 @@ public interface GoodsMapper {
     //根据商品名得到商品的信息
     Goods getGoodsByTitle(String title);
 
+    //根据userid得到商品
+    List<Goods> getGoodsByUserid(int userid);
+
 }

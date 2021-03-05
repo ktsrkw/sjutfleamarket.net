@@ -236,11 +236,20 @@ public class RouterController {
 
     @GetMapping("/user/{userid}")
     public String userAdmin(@PathVariable Integer userid,Model model){
-        //拿到用户的所有信息，送到前台
-        User user = userService.getUserById(userid);
-        model.addAttribute("user",user);
+        //判断当前用户是否有权限访问此页面
+        //获取当前session中存的userid
+        int useridInSession = (Integer) SecurityUtils.getSubject().getSession().getAttribute("userid");
+        //比对传进来userid与session中的userid，判断是否有权限登录
+        if(userid==useridInSession){
+            //拿到用户的所有信息，送到前台
+            User user = userService.getUserById(userid);
+            model.addAttribute("user",user);
+            return "admin";
+        }else {
+            //跳转到被拦截页面
+            return "error/intercept";
+        }
 
-        return "admin";
     }
 
     //处理用户修改用户信息
@@ -299,11 +308,12 @@ public class RouterController {
 
     @GetMapping("/releasegoods")
     public String toReleasePage(Model model){
-        //用户名拿到前台
+        //用户名,用户id拿到前台
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
 
         model.addAttribute("username",session.getAttribute("username"));
+        model.addAttribute("userid",(Integer)session.getAttribute("userid"));
 
         return "releasegoods";
     }
@@ -366,11 +376,28 @@ public class RouterController {
             }catch(Exception e) {
                 //图片上传失败，跳转到失败页面
                 e.printStackTrace();
-                return "imagesuploadfailed";
+                return "error/imagesuploadfailed";
             }
         }
 
         return "redirect:/index";
+    }
+
+    //处理到管理发布商品页面的请求
+    @GetMapping("/managergoods")
+    public String toManagerGoodsPage(Model model){
+        //用户名,用户id拿到前台
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        int userid = (Integer)session.getAttribute("userid");
+        model.addAttribute("username",session.getAttribute("username"));
+        model.addAttribute("userid",userid);
+
+        //根据userid拿到此用户发布的商品的对象集合
+        List<Goods> goods = goodsService.getGoodsByUserid(userid);
+        model.addAttribute("goods",goods);
+
+        return "managergoods";
     }
 
 }

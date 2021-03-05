@@ -24,10 +24,14 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item">
-                    <a href="">账户设置</a>
+                    <a th:href="@{/user/}+${userid}">账户设置</a>
                 </li>
-                <li class="layui-nav-item"><a th:href="@{/releasegoods}">发布闲置物品</a></li>
-                <li class="layui-nav-item"><a href="">管理我的发布</a></li>
+                <li class="layui-nav-item">
+                    <a href="">发布闲置物品</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a th:href="@{/managergoods}">管理我的发布</a>
+                </li>
             </ul>
         </div>
     </div>
