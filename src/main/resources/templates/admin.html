@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>后台管理</title>
-    <link rel="stylesheet" th:href="@{/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/zxsstyle/zxsform.css}">
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">layui 后台布局</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
-
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <p th:text="${user.getUsername()}"></p>
@@ -38,48 +38,88 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <form th:action="@{/user/update}" method="post">
-            <input type="hidden" th:value="${user.getUserid()}" name="userid">
-            邮箱<input type="text" th:value="${user.getEmail()}" name="email">
-            <p th:text="${msg08}" style="color:red"></p>
-            <br/>
-            用户名<input type="text" th:value="${user.getUsername()}" name="username">
-            <p th:text="${msg09}" style="color:red"></p>
-            <br/>
-            密码<input type="password" th:value="${user.getPassword()}" name="password">
-            <p th:text="${msg10}" style="color:red"></p>
-            <br/>
-            确认密码<input type="password" th:value="${user.getPassword()}" name="passwordConfirm">
-            <p th:text="${msg11}" style="color:red"></p>
-            <br/>
-            生日<input type="text" th:value="${#dates.format(user.getBirthday(),'yyyy-MM-dd')}" 	readonly>
-            选择日期<input type="date" name="birthdayDate">
-            <br/>
-            性别
-            <select name="gender">
-                <option th:selected="${user.getGender().equals('保密')}" value="保密">保密</option>
-                <option th:selected="${user.getGender().equals('男')}" value="男">男</option>
-                <option th:selected="${user.getGender().equals('女')}" value="女">女</option>
-            </select>
-            <br/>
-            学校
-            <select name="university">
-                <option th:selected="${user.getUniversity().equals('上海外国语大学')}" value="上海外国语大学">上海外国语大学</option>
-                <option th:selected="${user.getUniversity().equals('东华大学')}" value="东华大学">东华大学</option>
-                <option th:selected="${user.getUniversity().equals('华东政法大学')}" value="华东政法大学">华东政法大学</option>
-                <option th:selected="${user.getUniversity().equals('上海对外经贸大学')}" value="上海对外经贸大学">上海对外经贸大学</option>
-                <option th:selected="${user.getUniversity().equals('上海立信会计金融学院')}" value="上海立信会计金融学院">上海立信会计金融学院</option>
-                <option th:selected="${user.getUniversity().equals('上海工程技术大学')}" value="上海工程技术大学">上海工程技术大学</option>
-                <option th:selected="${user.getUniversity().equals('上海视觉艺术学院')}" value="上海视觉艺术学院">上海视觉艺术学院</option>
-            </select>
-            <br/>
-            电话<input type="text" th:value="${user.getTele()}" name="tele">
-            <br/>
-            其他联系方式<input type="text" th:value="${user.getOci()}" name="oci">
-            <br/>
-            <button type="submit">保存修改</button>
-        </form>
-        <a th:href="@{/cancelaccount/}+${user.getUserid()}">注销此账户</a>
+        <div class="zxsform">
+            <form th:action="@{/user/update}" method="post" class="layui-form">
+                <input type="hidden" th:value="${user.getUserid()}" name="userid">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">邮箱</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" th:value="${user.getEmail()}" type="text" name="email" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" th:value="${user.getUsername()}" type="text" name="username" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input" type="password" name="password" lay-verify="required" th:value="${user.getPassword()}">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">确认密码</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input"  type="password" name="passwordConfirm" lay-verify="required" th:value="${user.getPassword()}">
+                    </div>
+                    <!--下方为密码不一致的提示信息-->
+                    <!--                <div class="layui-form-mid layui-word-aux" th:text="${msg11}" style="color:red"></div>-->
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">生日</label>
+                    <div class="layui-input-block">
+                        <input type="text" class="layui-input" id="birthday" th:value="${#dates.format(user.getBirthday(),'yyyy-MM-dd')}" name="birthdayDate">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-block">
+                        <input th:checked="${user.getGender().equals('保密')}" type="radio" name="gender" value="保密" title="保密">
+                        <input th:checked="${user.getGender().equals('男')}" type="radio" name="gender" value="男" title="男">
+                        <input th:checked="${user.getGender().equals('女')}" type="radio" name="gender" value="女" title="女">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">学校</label>
+                    <div class="layui-input-block">
+                        <select name="university">
+                            <option th:selected="${user.getUniversity().equals('上海外国语大学')}" value="上海外国语大学">上海外国语大学</option>
+                            <option th:selected="${user.getUniversity().equals('东华大学')}" value="东华大学">东华大学</option>
+                            <option th:selected="${user.getUniversity().equals('华东政法大学')}" value="华东政法大学">华东政法大学</option>
+                            <option th:selected="${user.getUniversity().equals('上海对外经贸大学')}" value="上海对外经贸大学">上海对外经贸大学</option>
+                            <option th:selected="${user.getUniversity().equals('上海立信会计金融学院')}" value="上海立信会计金融学院">上海立信会计金融学院</option>
+                            <option th:selected="${user.getUniversity().equals('上海工程技术大学')}" value="上海工程技术大学">上海工程技术大学</option>
+                            <option th:selected="${user.getUniversity().equals('上海视觉艺术学院')}" value="上海视觉艺术学院">上海视觉艺术学院</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">电话</label>
+                    <div class="layui-input-block">
+                        <input type="text" th:value="${user.getTele()}" name="tele" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">其他联系方式</label>
+                    <div class="layui-input-block">
+                        <textarea name="oci" th:value="${user.getOci()}" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit type="submit">保存修改</button>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <a th:href="@{/cancelaccount/}+${user.getUserid()}" class="layui-btn layui-btn-danger">注销账户</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
     </div>
 
     <div class="layui-footer">
@@ -87,17 +127,14 @@
         © layui.com - 底部固定区域
     </div>
 </div>
-<script th:src="@{/js/layui.js}"></script>
+<script th:src="@{/layui/layui.all.js}"></script>
 <script>
-    layui.use('form', function(){
-        var form = layui.form;
-
-        //监听提交
-        form.on('submit(formDemo)', function(data){
-            layer.msg(JSON.stringify(data.field));
-            return false;
-        });
+;!function(){
+    var laydate = layui.laydate;
+    laydate.render({
+        elem:'#birthday'
     });
+}();
 </script>
 </body>
 </html>

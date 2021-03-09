@@ -10,11 +10,11 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-            <a th:href="@{/index}" class="layui-logo">
-                <i class="layui-icon layui-icon-dialogue" style="font-size: 160%;"></i>
-                <i class="layui-icon layui-icon-cart-simple" style="font-size: 160%;"></i>
-                <i class="layui-icon layui-icon-face-smile" style="font-size: 160%;"></i>
-            </a>
+        <a th:href="@{/index}" class="layui-logo">
+            <i class="layui-icon layui-icon-dialogue" style="font-size: 160%;"></i>
+            <i class="layui-icon layui-icon-cart-simple" style="font-size: 160%;"></i>
+            <i class="layui-icon layui-icon-face-smile" style="font-size: 160%;"></i>
+        </a>
         <!-- layui 后台布局 头部区域（可配合layui已有的水平导航） -->
 
         <ul class="layui-nav layui-layout-right">
@@ -44,24 +44,25 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div class="zxsform">
-            <form class="layui-form" th:action="@{/releasegoods}" method="post" enctype="multipart/form-data">
+            <form class="layui-form" th:action="@{/updategoodsinfo}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="goodsid" th:value="${goods.getGoodsid()}">
                 <div class="layui-form-item">
                     <label class="layui-form-label">商品名称</label>
                     <div class="layui-input-block">
-                        <input class="layui-input" type="text" name="title" lay-verify="required">
+                        <input class="layui-input" type="text" name="title" lay-verify="required" th:value="${goods.getTitle()}">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">商品类别</label>
                     <div class="layui-input-block">
                         <select name="category">
-                            <option value="学习用品">学习用品</option>
-                            <option value="交通工具">交通工具</option>
-                            <option value="生活日用品">生活日用品</option>
-                            <option value="衣物">衣物</option>
-                            <option value="电子产品">电子产品</option>
-                            <option value="书籍">书籍</option>
-                            <option value="其他">其他</option>
+                            <option th:selected="${goods.getCategory().equals('学习用品')}" value="学习用品">学习用品</option>
+                            <option th:selected="${goods.getCategory().equals('交通工具')}" value="交通工具">交通工具</option>
+                            <option th:selected="${goods.getCategory().equals('生活日用品')}" value="生活日用品">生活日用品</option>
+                            <option th:selected="${goods.getCategory().equals('衣物')}" value="衣物">衣物</option>
+                            <option th:selected="${goods.getCategory().equals('电子产品')}" value="电子产品">电子产品</option>
+                            <option th:selected="${goods.getCategory().equals('书籍')}" value="书籍">书籍</option>
+                            <option th:selected="${goods.getCategory().equals('其他')}" value="其他">其他</option>
                         </select>
                     </div>
                 </div>
@@ -75,25 +76,24 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">购入时价格</label>
                     <div class="layui-input-block">
-                        <input class="layui-input" type="text" name="originalPrice" lay-verify="required">
+                        <input class="layui-input" type="text" name="originalPrice" lay-verify="required" th:value="${goods.getOriginalPrice()}">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">出手价格</label>
                     <div class="layui-input-block">
-                        <input class="layui-input" type="text" name="price" lay-verify="required">
+                        <input class="layui-input" type="text" name="price" lay-verify="required" th:value="${goods.getPrice()}">
                     </div>
                 </div>
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">商品描述</label>
                     <div class="layui-input-block">
-                        <textarea class="layui-textarea" name="description"></textarea>
+                        <textarea class="layui-textarea" name="description" th:text="${goods.getDescription()}"></textarea>
                     </div>
                 </div>
-                <input type="hidden" value="1" name="status">
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" type="submit" lay-submit>发布</button>
+                        <button class="layui-btn" type="submit" lay-submit>提交修改</button>
                     </div>
                 </div>
             </form>

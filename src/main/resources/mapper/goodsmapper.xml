@@ -34,4 +34,11 @@
     <select id="getGoodsByUserid" resultType="Goods">
         select * from `goods` where `userid`=#{userid}
     </select>
+
+    <update id="updateGoods" parameterType="Goods">
+        update `goods` set `title`=#{title},`description`=#{description},
+                           `category`=#{category},`originalPrice`=#{originalPrice},
+                           `price`=#{price}
+                        where `goodsid`=#{goodsid}
+    </update>
 </mapper>

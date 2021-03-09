@@ -7,4 +7,9 @@
         select * from `comment` where `goodsid`=#{goodsid}
     </select>
 
+    <insert id="addAComment" parameterType="Comment">
+        insert into `comment`(`userid`,`goodsid`,`commentDeliveryTime`,`content`)
+        values (#{userid},#{goodsid},#{commentDeliveryTime},#{content})
+    </insert>
+
 </mapper>

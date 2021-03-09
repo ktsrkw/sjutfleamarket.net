@@ -23,6 +23,10 @@
         insert into `user`(`username`,`password`,`gender`,`university`,`email`,`tele`,`oci`)
         values (#{username},#{password},#{gender},#{university},#{email},#{tele},#{oci})
     </insert>
+    <insert id="insertAnUser" parameterType="User">
+        insert into `user`(`username`,`password`,`email`)
+        values (#{username},#{password},#{email})
+    </insert>
 
     <select id="getUserById" resultType="User">
         select * from `user` where `userid`=#{userid}
@@ -44,4 +48,8 @@
     <delete id="deleteUserById" parameterType="int">
         delete from `user` where `userid`=#{userid}
     </delete>
+
+    <select id="getUserByEmail" parameterType="String" resultType="User">
+        select * from `user` where `email`=#{email}
+    </select>
 </mapper>

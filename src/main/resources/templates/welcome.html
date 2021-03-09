@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-    <meta charset="UTF-8">
-    <title>松江大学城二手物品信息网</title>
+	<meta charset="UTF-8">
+	<title>松江大学城二手物品信息网</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/Mycss/LjjStyle.css}">
 </head>
 <body>
-<h1>Welcome to Songjiang University Town Flea Market</h1>
-<a th:href="@{/index}">进入市场</a>
-<div shiro:notAuthenticated=""><!--没有登陆时显示login-->
-    <a th:href="@{/login}">登录</a>
-</div>
-<div shiro:notAuthenticated=""><!--没有登陆时显示register-->
-    <a th:href="@{/register}">注册</a>
-</div>
+	<div class="LjjStyle">
+		</br>
+        </br>
+        </br>
+		<p>松江大学城二手物品信息网</p>
+	    <h6>Songjiang University Town Flea Market</h6>
+        </br>
+        </br>
+        <a th:href="@{/index}" class="layui-btn layui-btn-lg">进入市场</a>
+	    </br>
+	    <!--没有登陆时显示这个按钮组-->
+	    <div class="layui-btn-group" shiro:notAuthenticated="">
+	    	<a th:href="@{/login}" class="layui-btn">登录</a>
+            <a th:href="@{/register}" class="layui-btn">注册</a>
+        </div>
+    </div>
 </body>
 </html>

@@ -26,5 +26,13 @@
     <p th:text="${comment.getContent()}"></p>
     <p th:text="${#dates.format(comment.getCommentDeliveryTime(),'yyyy/MM/dd hh:mm')}"></p>
 </div>
+
+<!--评论提交区域-->
+<form th:action="@{/addcomment}" method="post">
+    <input type="hidden" name="goodsid" th:value="${goods.getGoodsid()}">
+    <textarea name="content"></textarea>
+    <button type="submit">添加评论</button>
+</form>
+
 </body>
 </html>

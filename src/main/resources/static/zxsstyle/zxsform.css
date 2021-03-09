@@ -1,0 +1,8 @@
+.zxsform{
+    display: block;
+    float: left;
+    width: 50%;
+    /*overflow: hidden;*/
+    margin: 2% auto;
+    height: 80%;
+}
