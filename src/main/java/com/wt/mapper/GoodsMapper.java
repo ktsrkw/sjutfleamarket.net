@@ -30,4 +30,7 @@ public interface GoodsMapper {
     //根据userid得到商品
     List<Goods> getGoodsByUserid(int userid);
 
+    //修改商品的信息
+    int updateGoods(Goods goods);
+
 }

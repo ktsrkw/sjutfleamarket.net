@@ -16,4 +16,9 @@ public class CommentServiceImpl implements CommentService{
     public List<Comment> getCommentsByGoodsId(int goodsid) {
         return commentMapper.getCommentsByGoodsId(goodsid);
     }
+
+    @Override
+    public int addAComment(Comment comment) {
+        return commentMapper.addAComment(comment);
+    }
 }

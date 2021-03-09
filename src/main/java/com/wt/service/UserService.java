@@ -23,6 +23,9 @@ public interface UserService {
     //插入一个用户的数据(没有生日数据)
     int insertAnUserWithoutBirthday(User user);
 
+    //插入一个用户的信息
+    int insertAnUser(User user);
+
     //更新用户的信息
     int updateUserWithBirthday(User user);
 
@@ -31,4 +34,7 @@ public interface UserService {
 
     //根据id删除用户表的记录
     int deleteUserById(int userid);
+
+    //根据邮箱得到用户
+    User getUserByEmail(String email);
 }

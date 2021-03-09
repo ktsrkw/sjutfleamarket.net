@@ -43,6 +43,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int insertAnUser(User user) {
+        return userMapper.insertAnUser(user);
+    }
+
+    @Override
     public int updateUserWithBirthday(User user) {
         return userMapper.updateUserWithBirthday(user);
     }
@@ -55,5 +60,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteUserById(int userid) {
         return userMapper.deleteUserById(userid);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userMapper.getUserByEmail(email);
     }
 }

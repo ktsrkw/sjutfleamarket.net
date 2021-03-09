@@ -127,6 +127,7 @@ public class RouterController {
         model.addAttribute("usernameByCommentid",usernameByCommentid);
 
 
+
         return "goods";
     }
 
@@ -183,22 +184,21 @@ public class RouterController {
     @PostMapping("/register")
     public String register(User user,
                            @PathParam("passwordConfirm") String passwordConfirm,
-                           @PathParam("birthdayDateString") String birthdayDateString,
                            Model model) throws ParseException {
 
         //注册时三个不能为空的值的检查
-        if(user.getEmail().equals("")){
-            model.addAttribute("msg02","请输入邮箱");
-            return "/register";
-        }
-        if(user.getUsername().equals("")){
-            model.addAttribute("msg03","请输入用户名");
-            return "/register";
-        }
-        if(user.getPassword().equals("")){
-            model.addAttribute("msg04","请输入密码");
-            return "/register";
-        }
+//        if(user.getEmail().equals("")){
+//            model.addAttribute("msg02","请输入邮箱");
+//            return "/register";
+//        }
+//        if(user.getUsername().equals("")){
+//            model.addAttribute("msg03","请输入用户名");
+//            return "/register";
+//        }
+//        if(user.getPassword().equals("")){
+//            model.addAttribute("msg04","请输入密码");
+//            return "/register";
+//        }
 
         //检查两次输入的密码是否一致
         if(!user.getPassword().equals(passwordConfirm)){
@@ -207,29 +207,32 @@ public class RouterController {
         }
 
         //检查改用户名或邮箱是否已被占用
-        if(userService.getUserByUsername(user.getEmail())!=null){
-            model.addAttribute("msg07","该邮箱已被注册");
+        if(userService.getUserByEmail(user.getEmail())!=null){
+            model.addAttribute("msg05","该邮箱已被注册");
             return "/register";
         }
         if(userService.getUserByUsername(user.getUsername())!=null){
-            model.addAttribute("msg06","该用户名已被占用");
+            model.addAttribute("msg05","该用户名已被占用");
             return "/register";
         }
 
 
         //日期的处理
         //如果输入了日期（生日），走插入语句1
-        if(!birthdayDateString.equals("")){
-            //处理日期的格式，装入对象中
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date birthday = format.parse(birthdayDateString);
-            user.setBirthday(birthday);
+//        if(!birthdayDateString.equals("")){
+//            //处理日期的格式，装入对象中
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//            Date birthday = format.parse(birthdayDateString);
+//            user.setBirthday(birthday);
+//
+//            userService.insertAnUserWithBirthday(user);
+//        }else{
+//            //如果没有输入生日，走插入语句2
+//            userService.insertAnUserWithoutBirthday(user);
+//        }
 
-            userService.insertAnUserWithBirthday(user);
-        }else{
-            //如果没有输入生日，走插入语句2
-            userService.insertAnUserWithoutBirthday(user);
-        }
+        //利用前台传来的信息注册
+        userService.insertAnUser(user);
 
         return "registersuccess";
     }
@@ -259,18 +262,18 @@ public class RouterController {
                              @PathParam("birthdayDate") String birthdayDate,
                              Model model) throws ParseException {
         //修改信息时三个不能为空的检查
-        if(user.getEmail().equals("")){
-            model.addAttribute("msg08","邮箱不能为空");
-            return "admin";
-        }
-        if(user.getUsername().equals("")){
-            model.addAttribute("msg09","用户名不能为空");
-            return "admin";
-        }
-        if(user.getPassword().equals("")){
-            model.addAttribute("msg10","密码不能为空");
-            return "admin";
-        }
+//        if(user.getEmail().equals("")){
+//            model.addAttribute("msg08","邮箱不能为空");
+//            return "admin";
+//        }
+//        if(user.getUsername().equals("")){
+//            model.addAttribute("msg09","用户名不能为空");
+//            return "admin";
+//        }
+//        if(user.getPassword().equals("")){
+//            model.addAttribute("msg10","密码不能为空");
+//            return "admin";
+//        }
 
         //检查两次输入的密码是否一致
         if(!user.getPassword().equals(passwordConfirm)){
@@ -398,6 +401,52 @@ public class RouterController {
         model.addAttribute("goods",goods);
 
         return "managergoods";
+    }
+
+    //处理添加评论的请求
+    @PostMapping("/addcomment")
+    public String addComment(Comment comment){
+        //得到当前用户的id
+        //拿到subject再拿到session再从session中拿到userid，set给当前comment对象
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        comment.setUserid((Integer)session.getAttribute("userid"));
+
+        //得到当前日期对象，set给comment
+        comment.setCommentDeliveryTime(new Date());
+
+        //添加入数据库
+        commentService.addAComment(comment);
+
+        //重定向
+        return "redirect:/goods/" + comment.getGoodsid();
+    }
+
+    //处理到修改商品信息页的请求
+    @GetMapping("/updategoodsinfo/{goodsid}")
+    public String toUpdateGoodsInfoPage(@PathVariable int goodsid,
+                                        Model model){
+        //获取当前session中存的username，送到前台
+        String username = (String) SecurityUtils.getSubject().getSession().getAttribute("username");
+        model.addAttribute("username",username);
+
+        //根据goodsid拿到goods信息，送到前台
+        Goods goods = goodsService.getGoodsById(goodsid);
+        model.addAttribute("goods",goods);
+
+        return "updategoodsinfo";
+    }
+
+    //处理修改商品信息的请求
+    @PostMapping("/updategoodsinfo")
+    public String updateGoodsInfo(Goods goods){
+        //修改数据库中商品的信息
+        goodsService.updateGoods(goods);
+
+        //判断用户是否选择了图片
+
+
+        return "redirect:/goods/" + goods.getGoodsid();
     }
 
 }
