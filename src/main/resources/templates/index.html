@@ -1,84 +1,200 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
 <head>
     <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <title>首页</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}">
+    <script th:src="@{/layui/layui.all.js}"></script>
+    <link rel="stylesheet" th:href="@{/zxsstyle/reset.css}">
+    <link rel="stylesheet" th:href="@{/zxsstyle/top.css}">
+    <link rel="stylesheet" th:href="@{/zxsstyle/medium.css}">
+    <link rel="stylesheet" th:href="@{/pictures/font_2379782_la0j5lcuty9/iconfont.css}">
 </head>
+
 <body>
-<h1>Here is Index</h1>
-<div shiro:notAuthenticated=""><!--没有登陆时显示login-->
-    <a th:href="@{/login}">登录</a>
-</div>
-<div shiro:notAuthenticated=""><!--没有登陆时显示register-->
-    <a th:href="@{/register}">注册</a>
-</div>
+    <div class="layui-nav layui-bg-green top clearfix">
+        <span class="left">
+            <div class="layui-logo">
+                <i class="layui-icon layui-icon-dialogue" style="font-size: 160%; color: #2F4056;"></i>
+                <i class="layui-icon layui-icon-cart-simple" style="font-size: 160%; color: #2F4056;"></i>
+                <i class="layui-icon layui-icon-face-smile" style="font-size: 160%; color: #2F4056;"></i>
+            </div>
+        </span>
 
-<div shiro:authenticated=""><!--登陆后显示username，点击进入该user的后台管理界面-->
-    <a th:text="${username}" th:href="@{/user/}+${userid}"></a>
-</div>
-<div shiro:authenticated=""><!--登陆后显示logout-->
-    <a th:href="@{/logout}">退出登录</a>
-</div>
-<p>
-    分类
-    <a th:href="@{/goods/studysupplies}">学习用品</a>
-    <a th:href="@{/goods/transportation}">交通工具</a>
-    <a th:href="@{/goods/dailynecessities}">生活日用品</a>
-    <a th:href="@{/goods/clothing}">衣物</a>
-    <a th:href="@{/goods/electronicproduct}">电子产品</a>
-    <a th:href="@{/goods/books}">书籍</a>
-    <a th:href="@{/goods/othergoods}">其他</a>
-    <a th:href="@{/index}">全部</a>
-</p>
+        <span class="right">
+            <!--搜索框-->
+<!--            <span class="right1">-->
+<!--                &lt;!&ndash; <i class="layui-icon layui-icon-search"></i> &ndash;&gt;-->
+<!--                <form class="search" action="">-->
+<!--                    <input type="text">-->
+<!--                    <a href="#" class="layui-btn layui-btn-sm log1">搜索</a>-->
+<!--                </form>-->
+<!--            </span>-->
 
-<form th:action="@{/goods/search}">
-    <input type="text" name="searchContent">
-    <button type="submit">搜索</button>
-</form>
+            <span><!--class="log"-->
+                <i class="layui-icon layui-icon-username"></i>
+                <!--登录后显示用户名与退出登录按钮，点击进入该user的后台管理界面-->
+                <div calss="log2" shiro:authenticated="">
+                    <a th:text="${username}" th:href="@{/user/}+${userid}" class="layui-btn layui-btn-sm"></a>
+                    <a th:href="@{/logout}" class="layui-btn layui-btn-sm">退出登录</a>
+                </div>
+                <!--未登录显示登录/注册按钮-->
+                <div class="layui-btn-group log2" shiro:notAuthenticated="">
+                    <a th:href="@{/login}" class="layui-btn layui-btn-sm">登录</a>
+                    <a th:href="@{/register}" class="layui-btn layui-btn-sm">注册</a>
+                </div>
+            </span>
 
-<table>
-    <thead>
-    <tr>
-        <th>名称</th>
-        <th>购入时价格</th>
-        <th>转卖价格</th>
-        <th>分类</th>
-        <th>详细信息</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="everygoods:${goods}">
-        <td th:text="${everygoods.getTitle()}"></td>
-        <td th:text="￥+${everygoods.getOriginalPrice()}"></td>
-        <td th:text="￥+${everygoods.getPrice()}"></td>
-        <td th:text="${everygoods.getCategory()}"></td>
-        <td>
-            <a th:href="@{/goods/}+${everygoods.getGoodsid()}">查看</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+        </span>
+    </div>
 
-<p>
-    当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
-</p>
 
-<p>
-    <!--reqPath为当前请求路径-->
-    <a th:if="${pageInfo.hasPreviousPage}" th:href="${reqPath}+'pageNum=1'">首页</a>
-    <a th:if="${pageInfo.hasPreviousPage}" th:href="${reqPath}+'pageNum='+${pageInfo.prePage}">
-        前一页
-    </a>
-<p style="white-space:nowrap" th:each="nav:${pageInfo.navigatepageNums}">
-    <a th:href="${reqPath}+'pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
-    <span th:if="${nav == pageInfo.pageNum}" th:text="${nav}"></span>
-</p>
-<a th:if="${pageInfo.hasNextPage}" th:href="${reqPath}+'pageNum='+${pageInfo.nextPage}">
-    下一页
-</a>
-<a th:if="${pageInfo.hasNextPage}" th:href="${reqPath}+'pageNum='+${pageInfo.pages}">尾页</a>
-</p>
+    <div class="medium">
+
+        <div class="layui-btn-group button">
+            <a th:href="@{/goods/books}" class="layui-btn layui-btn-primary btn-color">书籍</a>
+            <a th:href="@{/goods/studysupplies}" class="layui-btn layui-btn-primary btn-color">学习用品</a>
+            <a th:href="@{/goods/transportation}" class="layui-btn layui-btn-primary btn-color">交通工具</a>
+            <a th:href="@{/goods/electronicproduct}" class="layui-btn layui-btn-primary btn-color">电子产品</a>
+            <a th:href="@{/goods/dailynecessities}" class="layui-btn layui-btn-primary btn-color">生活日用品</a>
+            <a th:href="@{/goods/clothing}" class="layui-btn layui-btn-primary btn-color">衣物</a>
+            <a th:href="@{/goods/othergoods}" class="layui-btn layui-btn-primary btn-color">其他</a>
+            <a th:href="@{/index}" class="layui-btn layui-btn-primary btn-color">全部</a>
+        </div>
+
+        <div class="imgs">
+            <div class="img" th:if="0<${goods.size()}">
+                <a th:href="@{/goods/}+${goods.get(0).getGoodsid()}">
+                    <img th:src="${imagesMap.get(goods.get(0).getGoodsid())}">
+                    <div>
+                        <span class="name" th:text="${goods.get(0).getTitle()}"></span>
+                        <span class="price" th:text="￥+${goods.get(0).getPrice()}"></span>
+                        <s>购入时￥[[${goods.get(0).getOriginalPrice()}]]</s>
+                    </div>
+                </a>
+            </div>
+            <div class="img" th:if="1<${goods.size()}">
+                <a th:href="@{/goods/}+${goods.get(1).getGoodsid()}">
+                    <img th:src="${imagesMap.get(goods.get(1).getGoodsid())}">
+                    <div>
+                        <span class="name" th:text="${goods.get(1).getTitle()}"></span>
+                        <span class="price" th:text="￥+${goods.get(1).getPrice()}"></span>
+                        <s>购入时￥[[${goods.get(1).getOriginalPrice()}]]</s>
+                    </div>
+                </a>
+            </div>
+
+            <div class="img" th:if="2<${goods.size()}">
+                <a th:href="@{/goods/}+${goods.get(2).getGoodsid()}">
+                    <img th:src="${imagesMap.get(goods.get(2).getGoodsid())}">
+                    <div>
+                        <span class="name" th:text="${goods.get(2).getTitle()}"></span>
+                        <span class="price" th:text="￥+${goods.get(2).getPrice()}"></span>
+                        <s>购入时￥[[${goods.get(2).getOriginalPrice()}]]</s>
+                    </div>
+                </a>
+            </div>
+
+            <div class="img" th:if="3<${goods.size()}">
+                <a th:href="@{/goods/}+${goods.get(3).getGoodsid()}">
+                    <img th:src="${imagesMap.get(goods.get(3).getGoodsid())}">
+                    <div>
+                        <span class="name" th:text="${goods.get(3).getTitle()}"></span>
+                        <span class="price" th:text="￥+${goods.get(3).getPrice()}"></span>
+                        <s>购入时￥[[${goods.get(3).getOriginalPrice()}]]</s>
+                    </div>
+                </a>
+            </div>
+
+            <div class="img" th:if="4<${goods.size()}">
+                <a th:href="@{/goods/}+${goods.get(4).getGoodsid()}">
+                    <img th:src="${imagesMap.get(goods.get(4).getGoodsid())}">
+                    <div>
+                        <span class="name" th:text="${goods.get(4).getTitle()}"></span>
+                        <span class="price" th:text="￥+${goods.get(4).getPrice()}"></span>
+                        <s>购入时￥[[${goods.get(4).getOriginalPrice()}]]</s>
+                    </div>
+                </a>
+            </div>
+
+            <div class="img" th:if="5<${goods.size()}">
+                <a th:href="@{/goods/}+${goods.get(5).getGoodsid()}">
+                    <img th:src="${imagesMap.get(goods.get(5).getGoodsid())}">
+                    <div>
+                        <span class="name" th:text="${goods.get(5).getTitle()}"></span>
+                        <span class="price" th:text="￥+${goods.get(5).getPrice()}"></span>
+                        <s>购入时￥[[${goods.get(5).getOriginalPrice()}]]</s>
+                    </div>
+                </a>
+            </div>
+
+            <div class="img" th:if="6<${goods.size()}">
+                <a th:href="@{/goods/}+${goods.get(6).getGoodsid()}">
+                    <img th:src="${imagesMap.get(goods.get(6).getGoodsid())}">
+                    <div>
+                        <span class="name" th:text="${goods.get(6).getTitle()}"></span>
+                        <span class="price" th:text="￥+${goods.get(6).getPrice()}"></span>
+                        <s>购入时￥[[${goods.get(6).getOriginalPrice()}]]</s>
+                    </div>
+                </a>
+            </div>
+
+            <div class="img" th:if="7<${goods.size()}">
+                <a th:href="@{/goods/}+${goods.get(7).getGoodsid()}">
+                    <img th:src="${imagesMap.get(goods.get(7).getGoodsid())}">
+                    <div>
+                        <span class="name" th:text="${goods.get(7).getTitle()}"></span>
+                        <span class="price" th:text="￥+${goods.get(7).getPrice()}"></span>
+                        <s>购入时￥[[${goods.get(7).getOriginalPrice()}]]</s>
+                    </div>
+                </a>
+            </div>
+
+            <div class="img" th:if="8<${goods.size()}">
+                <a th:href="@{/goods/}+${goods.get(8).getGoodsid()}">
+                    <img th:src="${imagesMap.get(goods.get(8).getGoodsid())}">
+                    <div>
+                        <span class="name" th:text="${goods.get(8).getTitle()}"></span>
+                        <span class="price" th:text="￥+${goods.get(8).getPrice()}"></span>
+                        <s>购入时￥[[${goods.get(8).getOriginalPrice()}]]</s>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="changePage">
+            <a th:href="${reqPath}+'pageNum=1'" class="layui-btn">首页</a>
+            <a th:href="${reqPath}+'pageNum='+${pageInfo.prePage}" class="layui-btn">
+                <i class="layui-icon">&#xe603;</i>
+            </a>
+            <span>[[${pageInfo.pageNum}]]/[[${pageInfo.pages}]]</span>
+            <a th:href="${reqPath}+'pageNum='+${pageInfo.nextPage}" class="layui-btn">
+                <i class="layui-icon">&#xe602;</i>
+            </a>
+            <a th:href="${reqPath}+'pageNum='+${pageInfo.pages}" class="layui-btn">尾页</a>
+        </div>
+        <hr class="layui-bg-green line">
+        <a href="#">
+            <div class="bottom">关于本站</div>
+        </a>
+
+        <div class="bottom">
+            <a href="https://github.com/ktsrkw/sjutfleamarket.net" target="_blank">
+                <i class="iconfont">&#xe628;</i>
+                <span>github</span>
+            </a>
+
+        </div>
+
+        <div class="bottom">联系方式：ktsrkw@163.com</div>
+
+    </div>
+
 
 </body>
+
 </html>

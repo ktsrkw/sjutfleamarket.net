@@ -12,4 +12,11 @@
         values (#{userid},#{goodsid},#{commentDeliveryTime},#{content})
     </insert>
 
+    <delete id="deleteCommentsByGoodsId">
+        delete from `comment` where `goodsid`=#{goodsid}
+    </delete>
+    <delete id="deleteCommentsByUserId">
+        delete from `comment` where `userid`=#{userid}
+    </delete>
+
 </mapper>

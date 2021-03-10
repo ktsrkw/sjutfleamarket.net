@@ -1,0 +1,23 @@
+.left{
+    display: inline-block;
+    font-size: 45px;
+    line-height: 100%;
+}
+
+.top{
+    height: 50px;
+
+}
+
+.clearfix::before,
+.clearfix::after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
+
+body{
+    background-image: url("../pictures/goodsbgi.png");
+}
+

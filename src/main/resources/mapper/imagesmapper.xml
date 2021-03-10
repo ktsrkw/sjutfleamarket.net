@@ -10,4 +10,8 @@
     <select id="getImagesByGoodsId" resultType="Images">
         select * from `images` where `goodsid`=#{goodsid}
     </select>
+
+    <delete id="deleteImagesByGoodsid">
+        delete from `images` where `goodsid`=#{goodsid}
+    </delete>
 </mapper>

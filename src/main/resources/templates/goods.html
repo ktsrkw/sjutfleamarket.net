@@ -1,38 +1,142 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品详情</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}">
+    <link rel="stylesheet" th:href="@{/zxsstyle/reset.css}">
+    <link rel="stylesheet" th:href="@{/zxsstyle/top2.css}">
+    <link rel="stylesheet" th:href="@{/zxsstyle/medium2.css}">
+    <link rel="stylesheet" th:href="@{/zxsstyle/bottom.css}">
+    <link rel="stylesheet" th:href="@{/pictures/font_2379782_la0j5lcuty9/iconfont.css}">
 </head>
+
 <body>
-<h1>详情</h1>
-<h2 th:text="${goods.getTitle()}"></h2>
-<h3 th:text="￥+${goods.getPrice()}"></h3>
-<p>原价<s th:text="￥+${goods.getOriginalPrice()}"></s></p>
-<img th:each="image:${images}" th:src="${image.getImgurl()}" height="200" width="400">
-<p th:text="${goods.getDescription()}"></p>
-<p th:text="${#dates.format(goods.getDeliveryTime(),'yyyy/MM/dd hh:mm')}"></p>
-<br/>
-<br/>
-<br/>
-<p>发布人联系方式</p>
-<p th:text="${user.getUsername()}"></p>
-<p th:text="'email:'+${user.getEmail()}"></p>
+    <div class="layui-nav top clearfix">
+        <span class="left">通用</span>
+    </div>
 
-<!--展示评论-->
-<div th:each="comment:${comments}">
-    <p>-------------------------------</p>
-    <p>发表人：[[${usernameByCommentid.get(comment.getCommentid())}]]</p>
-    <p th:text="${comment.getContent()}"></p>
-    <p th:text="${#dates.format(comment.getCommentDeliveryTime(),'yyyy/MM/dd hh:mm')}"></p>
-</div>
 
-<!--评论提交区域-->
-<form th:action="@{/addcomment}" method="post">
-    <input type="hidden" name="goodsid" th:value="${goods.getGoodsid()}">
-    <textarea name="content"></textarea>
-    <button type="submit">添加评论</button>
-</form>
+    <div class="medium">
+        <div class="div1">
+            <span th:text="${goods.getTitle()}"></span>
+            <span class="span1">￥[[${goods.getPrice()}]]</span>
+        </div>
+        </br>
 
+        <div class="div2">
+            <s>购入时￥[[${goods.getOriginalPrice()}]]</s>
+        </div>
+
+        <!--展示发布者信息-->
+        <div class="info clearfix">
+            <div class="infos">
+                <i class="layui-icon layui-icon-username"></i>
+                [[${user.getUsername()}]]
+            </div>
+            <div class="infos">
+                <i class="layui-icon layui-icon-email"></i>
+                [[${user.getEmail()}]]
+            </div>
+            <div class="infos">
+                <i class="layui-icon layui-icon-cellphone"></i>
+                [[${user.getTele()}]]
+            </div>
+            <div class="infos">
+                <i class="layui-icon layui-icon-notice"></i>
+                [[${user.getOci()}]]
+            </div>
+        </div>
+
+        <!--图片与描述-->
+        <div class="imgs">
+            <div class="img" th:each="image:${images}">
+                <img th:src="${image.getImgurl()}">
+            </div>
+
+            <div class="description clearfix">
+                [[${goods.getDescription()}]]
+                <br>
+                <div class="time">
+                    <span th:text="${#dates.format(goods.getDeliveryTime(),'yyyy-MM-dd hh:mm')}"></span>
+                </div>
+            </div>
+
+            <div class="comment-top">
+                <div class="text1">评论</div>
+                <div class="line">
+                    <hr class="layui-bg-green">
+                </div>
+            </div>
+
+            <!--评论内容-->
+            <div class="comments">
+                <div class="comment" th:each="comment:${comments}">
+                    <div class="comment-icon">
+                        <span><i class="layui-icon layui-icon-username"
+                                style="font-size: 20px; color: black;"></i>[[${usernameByCommentid.get(comment.getCommentid())}]]:</span>
+                    </div>
+                    </br>
+                    <div class="comment1">
+                        [[${comment.getContent()}]]
+                        </br>
+                        </br>
+                        </br>
+                        <div class="time2">
+                            <span th:text="${#dates.format(comment.getCommentDeliveryTime(),'yyyy/MM/dd hh:mm')}"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="addComment">
+                    <form th:action="@{/addcomment}" method="post">
+                        <input type="hidden" name="goodsid" th:value="${goods.getGoodsid()}">
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <textarea name="content" class="layui-textarea" required lay-verify="required"></textarea>
+                            </div>
+                        </div>
+                        <!--登陆后显示允许添加按钮-->
+                        <div class="layui-form-item layui-form-text" shiro:authenticated="">
+                            <label class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit type="submit">添加</button>
+                            </div>
+                        </div>
+                        <!--登陆前显示禁用按钮-->
+                        <div class="layui-form-item layui-form-text" shiro:notAuthenticated="">
+                            <label class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <a class="layui-btn layui-btn-disabled">添加</a>
+                                <span>*登陆前无法添加评论*</span>
+                            </div>
+                        </div>
+                    </form>
+                    </br>
+                    </br>
+                    </br>
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <script>
+        ;!function(){
+
+        }();
+    </script>
 </body>
+
 </html>

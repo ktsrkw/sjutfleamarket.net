@@ -9,8 +9,12 @@
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">layui 后台布局</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <a th:href="@{/index}" class="layui-logo">
+            <i class="layui-icon layui-icon-dialogue" style="font-size: 160%;"></i>
+            <i class="layui-icon layui-icon-cart-simple" style="font-size: 160%;"></i>
+            <i class="layui-icon layui-icon-face-smile" style="font-size: 160%;"></i>
+        </a>
+        <!-- layui 后台布局 头部区域（可配合layui已有的水平导航） -->
 
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
@@ -62,8 +66,10 @@
                 <td th:text="${good.getStatus()==1?'在售':'下架'}"></td>
                 <td>
                     <div class="layui-btn-group">
-                        <a class="layui-btn layui-btn-sm" th:href="@{/updategoodsinfo/}+${good.getGoodsid()}">编辑</a>
-                        <a class="layui-btn layui-btn-sm layui-btn-danger" th:href="@{/offshelf/}+${good.getGoodsid()}">下架</a>
+                        <a th:if="${good.getStatus()==1}" class="layui-btn layui-btn-sm" th:href="@{/updategoodsinfo/}+${good.getGoodsid()}">编辑</a>
+                        <a th:if="${good.getStatus()==1}" class="layui-btn layui-btn-sm layui-btn-danger" th:href="@{/offshelf/}+${good.getGoodsid()}">下架</a>
+                        <a th:if="${good.getStatus()==0}" class="layui-btn layui-btn-sm layui-btn-danger" th:href="@{/onshelf/}+${good.getGoodsid()}">上架</a>
+                        <a th:if="${good.getStatus()==0}" class="layui-btn layui-btn-sm layui-btn-primary" th:href="@{/delete/}+${good.getGoodsid()}">删除</a>
                     </div>
                 </td>
             </tr>

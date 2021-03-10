@@ -41,4 +41,15 @@
                            `price`=#{price}
                         where `goodsid`=#{goodsid}
     </update>
+
+    <update id="offShelfGoodsByGoodsid">
+        update `goods` set `status`=0 where `goodsid`=#{goodsid}
+    </update>
+    <update id="onShelfGoodsByGoodsid">
+        update `goods` set `status`=1 where `goodsid`=#{goodsid}
+    </update>
+
+    <delete id="deleteGoodsByGoodsId">
+        delete from `goods` where `goodsid`=#{goodsid}
+    </delete>
 </mapper>

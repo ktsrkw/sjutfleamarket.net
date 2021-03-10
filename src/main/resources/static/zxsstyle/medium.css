@@ -1,0 +1,74 @@
+.medium{
+    margin: 1% 20%;
+    float: left;
+    width: 60%;
+}
+
+
+.medium .button{
+    margin-bottom: 1%;
+}
+
+.img{
+    height: 350px;
+    width: 32%;
+    border:solid 2px #EBEBEB;
+    display: inline-block;
+    margin-bottom: 1%;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+img{
+    /* display: inline; */
+    height: 75%;
+    /*width: 100%;*/
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+/* .img div {
+    margin: 10px 5px;
+    display: block;
+} */
+
+.name{
+    margin: 2%;
+    float: left;
+    font-size: 140%;
+}
+
+.price{
+    float: right;
+    font-size: 140%;
+    margin: 2%;
+}
+
+s{
+    margin-top: 20%;
+    margin-left: -25%;
+    float: left;
+}
+
+.changePage{
+    text-align: center;
+    margin-top: 5%;
+}
+
+.bottom{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+i.iconfont{
+    font-size: 130%;
+}
+
+.line{
+    margin-top: 3%;
+}
+
+.btn-color{
+    background-color: #393D49;
+    color: rgb(226, 226, 224);
+}

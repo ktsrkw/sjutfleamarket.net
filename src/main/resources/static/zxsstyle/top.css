@@ -1,0 +1,60 @@
+.search{
+    display: inline-block;
+    line-height: 50px;
+}
+
+.right{
+    float: right;
+}
+
+.left {
+    float: left;
+    font-size: 200%;
+    margin-left: 2%;
+}
+
+/* .left i{
+    font-size: 200%;
+} */
+
+.top{
+    line-height: 50px;
+}
+
+
+.clearfix::before,
+.clearfix::after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.log2{
+    /* display: inline-block; */
+    margin-bottom: 2.2%;
+    /* margin-left: -1%; */
+    
+}
+
+
+.right i{
+    font-size: 130%;
+}
+
+.right1{
+    margin-left: -50%;
+}
+
+.log{
+    margin-left: 50%;
+}
+
+.log1{
+    margin-bottom: 2.2%;
+}
+
+body{
+    background-image: url("../pictures/indexbgi.png");
+}
+
+
