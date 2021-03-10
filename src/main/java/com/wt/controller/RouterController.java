@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
@@ -57,7 +58,7 @@ public class RouterController {
     @RequestMapping("/index")
     public String index(Model model,
                         @RequestParam(required = false, defaultValue = "1", value = "pageNum") Integer pageNum,
-                        @RequestParam(defaultValue = "3", value = "pageSize") Integer pageSize) {
+                        @RequestParam(defaultValue = "9", value = "pageSize") Integer pageSize) {
         //给首页拿到所有商品的数据
 //        List<Goods> goods = goodsService.getAllGoods();
 //        model.addAttribute("goods",goods);
@@ -81,7 +82,7 @@ public class RouterController {
             pageNum = 1;
         }
         if (pageSize == null) {
-            pageSize = 3;
+            pageSize = 9;
         }    //设置默认每页显示的数据数
 
         //使用分页插件
@@ -94,6 +95,22 @@ public class RouterController {
         model.addAttribute("reqPath", reqPath);
         model.addAttribute("goods", goods);
         model.addAttribute("pageInfo", pageInfo);
+
+        //从数据库中拿到图片的连接以作为首页商品略缩图展示
+        //搞个map来放url
+        Map<Integer,String> imagesMap = new HashMap<>();
+        for(Goods singleGoods : goods){
+            //根据goodsid得到其包含的图片列表
+            List<Images> images = imagesService.getImagesByGoodsId(singleGoods.getGoodsid());
+            //如果此商品包含图片，将第0张图片的url和商品id存入map
+            if(!images.isEmpty()){
+                imagesMap.put(singleGoods.getGoodsid(),images.get(0).getImgurl());
+            }
+        }
+        //存有图片url的map送到前台
+        model.addAttribute("imagesMap",imagesMap);
+
+
 
         return "index";
     }
@@ -299,6 +316,25 @@ public class RouterController {
     //实现注销账户
     @GetMapping("/cancelaccount/{userid}")
     public String cancelAccount(@PathVariable int userid){
+        //user发布有goods，删除user同时也删除goods
+        //userid作为goods与comment的外键
+        //goodsid作为images与comment的外键
+        //所以先删除商品再删除用户
+        //根据userid得到其发布的商品
+        List<Goods> goodsList = goodsService.getGoodsByUserid(userid);
+        //循环删除所有的商品记录
+        for (Goods goods : goodsList){
+            //根据goodsid删除商品
+            //goodsid作为comment与images的外键
+            //先删除此goods的images与comment，再删除goods
+            imagesService.deleteImagesByGoodsid(goods.getGoodsid());
+            commentService.deleteCommentsByGoodsId(goods.getGoodsid());
+            goodsService.deleteGoodsByGoodsId(goods.getGoodsid());
+        }
+        //删除此用户发布的评论
+        commentService.deleteCommentsByUserId(userid);
+
+        //商品、评论删除完了后再删除此用户
         //调service层，根据userid删除用户表的记录
         userService.deleteUserById(userid);
 
@@ -439,14 +475,85 @@ public class RouterController {
 
     //处理修改商品信息的请求
     @PostMapping("/updategoodsinfo")
-    public String updateGoodsInfo(Goods goods){
+    public String updateGoodsInfo(Goods goods,
+                                  MultipartFile[] uploadFiles,
+                                  HttpServletRequest request){
         //修改数据库中商品的信息
         goodsService.updateGoods(goods);
 
-        //判断用户是否选择了图片
+        //处理用户上传的图片
+        //如果用户上传了图片则做以下处理
+        for(MultipartFile uploadFile : uploadFiles){
+                //如果用户有选择图片
+                if (!uploadFile.isEmpty()){
+                    //处理上传的图片
+                    try{
+                        //处理上传文件的步骤
 
+                        //1、创建文件在服务器端的存放路径
+                        String imgPath = "D:\\codes\\resources\\sjut-flea-market-user-upload";
+                        File imgDir = new File(imgPath);
+
+                        //2、生成文件在服务器端存放的名字（避免重名）
+                        //得到上传文件的后缀名（.jpg，.txt，.mp4 ...）
+                        String fileSuffix= Objects.requireNonNull(uploadFile.getOriginalFilename())
+                                .substring(uploadFile.getOriginalFilename().lastIndexOf("."));
+                        //给文件准备好一个新的名字imgNewName：随机生成的UUID再加上前面取得的文件后缀名
+                        String imgNewName= UUID.randomUUID().toString()+fileSuffix;
+                        File uploadedFile = new File(imgDir+"/"+imgNewName);
+
+                        //3、上传
+                        uploadFile.transferTo(uploadedFile);
+
+                        //4、获取上传文件的访问路径
+                        //这里的images是映射路径，实际不是存储在这的
+                        String filePath = request.getScheme() + "://" + request.getServerName() + ":"
+                                + request.getServerPort() + "/images/" + imgNewName;
+
+                        //创建一个对象，添加到数据库中
+                        Images images = new Images(filePath,goods.getGoodsid());
+                        imagesService.addAnImage(images);
+
+                    }catch(Exception e) {
+                        //图片上传失败，跳转到失败页面
+                        e.printStackTrace();
+                        return "error/imagesuploadfailed";
+                    }
+                }
+        }
 
         return "redirect:/goods/" + goods.getGoodsid();
+    }
+
+    //处理下架商品的请求
+    @GetMapping("/offshelf/{goodsid}")
+    public String offShelfGoods(@PathVariable int goodsid){
+        //根据goodsid下架商品
+        goodsService.offShelfGoodsByGoodsid(goodsid);
+
+        return "redirect:/managergoods";
+    }
+
+    //处理上架商品的请求
+    @GetMapping("/onshelf/{goodsid}")
+    public String onShelfGoods(@PathVariable int goodsid){
+        //根据goodsid上架商品
+        goodsService.onShelfGoodsByGoodsid(goodsid);
+
+        return "redirect:/managergoods";
+    }
+
+    //处理删除商品的请求
+    @GetMapping("/delete/{goodsid}")
+    public String deleteGoodsByGoodsId(@PathVariable int goodsid){
+        //根据goodsid删除商品
+        //goodsid作为comment与images的外键
+        //先删除此goods的images与comment，再删除goods
+        imagesService.deleteImagesByGoodsid(goodsid);
+        commentService.deleteCommentsByGoodsId(goodsid);
+        goodsService.deleteGoodsByGoodsId(goodsid);
+
+        return "redirect:/managergoods";
     }
 
 }

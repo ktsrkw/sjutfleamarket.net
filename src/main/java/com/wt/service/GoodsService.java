@@ -29,4 +29,13 @@ public interface GoodsService {
     //修改商品的信息
     int updateGoods(Goods goods);
 
+    //根据goodsid下架商品
+    int offShelfGoodsByGoodsid(int goodsid);
+
+    //根据goodsid下架商品
+    int onShelfGoodsByGoodsid(int goodsid);
+
+    //根据goodsid删除商品
+    int deleteGoodsByGoodsId(int goodsid);
+
 }

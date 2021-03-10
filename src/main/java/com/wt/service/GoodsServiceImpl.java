@@ -51,4 +51,19 @@ public class GoodsServiceImpl implements GoodsService {
     public int updateGoods(Goods goods) {
         return goodsMapper.updateGoods(goods);
     }
+
+    @Override
+    public int offShelfGoodsByGoodsid(int goodsid) {
+        return goodsMapper.offShelfGoodsByGoodsid(goodsid);
+    }
+
+    @Override
+    public int onShelfGoodsByGoodsid(int goodsid) {
+        return goodsMapper.onShelfGoodsByGoodsid(goodsid);
+    }
+
+    @Override
+    public int deleteGoodsByGoodsId(int goodsid) {
+        return goodsMapper.deleteGoodsByGoodsId(goodsid);
+    }
 }

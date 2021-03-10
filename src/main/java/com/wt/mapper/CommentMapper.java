@@ -15,4 +15,10 @@ public interface CommentMapper {
     //向数据库中添加一条评论
     int addAComment(Comment comment);
 
+    //根据goodsid删除评论
+    int deleteCommentsByGoodsId(int goodsid);
+
+    //根据userid删除评论
+    int deleteCommentsByUserId(int userid);
+
 }

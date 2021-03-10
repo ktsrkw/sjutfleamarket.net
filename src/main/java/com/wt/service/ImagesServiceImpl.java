@@ -21,4 +21,9 @@ public class ImagesServiceImpl implements ImagesService{
     public List<Images> getImagesByGoodsId(int goodsid) {
         return imagesMapper.getImagesByGoodsId(goodsid);
     }
+
+    @Override
+    public int deleteImagesByGoodsid(int goodsid) {
+        return imagesMapper.deleteImagesByGoodsid(goodsid);
+    }
 }

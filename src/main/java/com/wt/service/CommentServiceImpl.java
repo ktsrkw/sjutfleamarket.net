@@ -21,4 +21,15 @@ public class CommentServiceImpl implements CommentService{
     public int addAComment(Comment comment) {
         return commentMapper.addAComment(comment);
     }
+
+    @Override
+    public int deleteCommentsByGoodsId(int goodsid) {
+        return commentMapper.deleteCommentsByGoodsId(goodsid);
+    }
+
+    @Override
+    public int deleteCommentsByUserId(int userid) {
+        System.out.println("调用了mapper");
+        return commentMapper.deleteCommentsByUserId(userid);
+    }
 }
