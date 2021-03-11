@@ -3,21 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wt.mapper.GoodsMapper">
+    <!--为了优先展示最新发布的商品，对查询结构做逆序-->
     <select id="getAllGoods" resultType="Goods">
-        select * from `goods`
+        select * from `goods` where `status`=1 order by `goodsid` desc
     </select>
 
     <select id="getGoodsById" resultType="Goods">
-        select * from `goods` where `goodsid`=#{goodsid}
+        select * from `goods` where `goodsid`=#{goodsid} and `status`=1
     </select>
 
     <select id="getGoodsByCategory" parameterType="String" resultType="Goods">
-        select * from `goods` where `category`=#{category}
+        select * from `goods` where `category`=#{category} and `status`=1 order by `goodsid` desc
     </select>
 
     <select id="getGoodsByInputName" parameterType="String" resultType="Goods">
         select * from `goods` where `title` like concat('%',#{searchContent},'%')
-        or `category` like concat('%',#{searchContent},'%')
+        or `category` like concat('%',#{searchContent},'%') and `status`=1 order by `goodsid` desc
     </select>
 
     <insert id="addAGoods" parameterType="Goods">
@@ -28,7 +29,7 @@
     </insert>
 
     <select id="getGoodsByTitle" parameterType="String" resultType="Goods">
-        select * from `goods` where `title`=#{title}
+        select * from `goods` where `title`=#{title} and `status`=1
     </select>
 
     <select id="getGoodsByUserid" resultType="Goods">
@@ -52,4 +53,13 @@
     <delete id="deleteGoodsByGoodsId">
         delete from `goods` where `goodsid`=#{goodsid}
     </delete>
+
+    <select id="getUserIdByGoodsId" resultType="int">
+        select `userid` from `goods` where `goodsid`=#{goodsid}
+    </select>
+
+    <select id="getGoodsIdByDateAndTitle" resultType="int">
+        select `goodsid` from `goods`
+        where `title`=#{title} and `deliveryTime`>=#{date}
+    </select>
 </mapper>

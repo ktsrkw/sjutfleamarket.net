@@ -21,14 +21,14 @@
     </br>
     </br>
     <p>
-        <i class="layui-icon layui-icon-dialogue" style="font-size: 30px; color: white;"></i>
-        <i class="layui-icon layui-icon-cart-simple" style="font-size: 30px; color: white;"></i> 
-        <i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: white;"></i>
+        <i class="layui-icon layui-icon-dialogue" style="font-size: 30px; color: black;"></i>
+        <i class="layui-icon layui-icon-cart-simple" style="font-size: 30px; color: black;"></i>
+        <i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: black;"></i>
     </p>
     </br>
     </br>
 	<form class="layui-form" th:action="@{/login}" method="post">
-        <span th:text="${msg01}" style="color:white"></span><!--认证失败，打印出提示信息-->
+        <span th:text="${msg01}" style="color:black"></span><!--认证失败，打印出提示信息-->
         <input type="text" name="username" required  lay-verify="required" placeholder="请输入邮箱/用户名" autocomplete="off" class="layui-input">
         <br/>
         <input type="password" name="password" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">

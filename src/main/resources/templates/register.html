@@ -9,14 +9,14 @@
 <body>
 	<div class="Ljjstyle2">
     <p>
-        <i class="layui-icon layui-icon-dialogue" style="font-size: 30px; color: white;"></i>
-        <i class="layui-icon layui-icon-cart-simple" style="font-size: 30px; color: white;"></i>
-        <i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: white;"></i>
+        <i class="layui-icon layui-icon-dialogue" style="font-size: 30px; color: black;"></i>
+        <i class="layui-icon layui-icon-cart-simple" style="font-size: 30px; color: black;"></i>
+        <i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: black;"></i>
     </p>
     </br>
     </br>
 	<form class="layui-form" th:action="@{/register}" method="post">
-        <span th:text="${msg05}" style="color:white"></span><!--注册失败，打印出提示信息-->
+        <span th:text="${msg05}" style="color:black"></span><!--注册失败，打印出提示信息-->
         <input type="text" name="email" required  lay-verify="required" placeholder="邮箱" autocomplete="off" class="layui-input">
         </br>
         <input type="text" name="username" required  lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input">

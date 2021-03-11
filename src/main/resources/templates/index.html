@@ -17,11 +17,13 @@
 <body>
     <div class="layui-nav layui-bg-green top clearfix">
         <span class="left">
-            <div class="layui-logo">
-                <i class="layui-icon layui-icon-dialogue" style="font-size: 160%; color: #2F4056;"></i>
-                <i class="layui-icon layui-icon-cart-simple" style="font-size: 160%; color: #2F4056;"></i>
-                <i class="layui-icon layui-icon-face-smile" style="font-size: 160%; color: #2F4056;"></i>
-            </div>
+            <a th:href="@{/index}">
+                <div class="layui-logo">
+                    <i class="layui-icon layui-icon-dialogue" style="font-size: 160%; color: white;"></i>
+                    <i class="layui-icon layui-icon-cart-simple" style="font-size: 160%; color: white;"></i>
+                    <i class="layui-icon layui-icon-face-smile" style="font-size: 160%; color: white;"></i>
+                </div>
+            </a>
         </span>
 
         <span class="right">
@@ -37,10 +39,10 @@
             <span><!--class="log"-->
                 <i class="layui-icon layui-icon-username"></i>
                 <!--登录后显示用户名与退出登录按钮，点击进入该user的后台管理界面-->
-                <div calss="log2" shiro:authenticated="">
+                <span calss="log2" shiro:authenticated="">
                     <a th:text="${username}" th:href="@{/user/}+${userid}" class="layui-btn layui-btn-sm"></a>
                     <a th:href="@{/logout}" class="layui-btn layui-btn-sm">退出登录</a>
-                </div>
+                </span>
                 <!--未登录显示登录/注册按钮-->
                 <div class="layui-btn-group log2" shiro:notAuthenticated="">
                     <a th:href="@{/login}" class="layui-btn layui-btn-sm">登录</a>
@@ -54,21 +56,22 @@
 
     <div class="medium">
 
-        <div class="layui-btn-group button">
-            <a th:href="@{/goods/books}" class="layui-btn layui-btn-primary btn-color">书籍</a>
-            <a th:href="@{/goods/studysupplies}" class="layui-btn layui-btn-primary btn-color">学习用品</a>
-            <a th:href="@{/goods/transportation}" class="layui-btn layui-btn-primary btn-color">交通工具</a>
-            <a th:href="@{/goods/electronicproduct}" class="layui-btn layui-btn-primary btn-color">电子产品</a>
-            <a th:href="@{/goods/dailynecessities}" class="layui-btn layui-btn-primary btn-color">生活日用品</a>
-            <a th:href="@{/goods/clothing}" class="layui-btn layui-btn-primary btn-color">衣物</a>
-            <a th:href="@{/goods/othergoods}" class="layui-btn layui-btn-primary btn-color">其他</a>
-            <a th:href="@{/index}" class="layui-btn layui-btn-primary btn-color">全部</a>
+        <div class="layui-btn-group button my-button-group">
+            <!-- btn-color-->
+            <a th:href="@{/goods/books}" class="layui-btn layui-btn-primary">书籍</a>
+            <a th:href="@{/goods/studysupplies}" class="layui-btn layui-btn-primary">学习用品</a>
+            <a th:href="@{/goods/transportation}" class="layui-btn layui-btn-primary">交通工具</a>
+            <a th:href="@{/goods/electronicproduct}" class="layui-btn layui-btn-primary">电子产品</a>
+            <a th:href="@{/goods/dailynecessities}" class="layui-btn layui-btn-primary">生活日用品</a>
+            <a th:href="@{/goods/clothing}" class="layui-btn layui-btn-primary">衣物</a>
+            <a th:href="@{/goods/othergoods}" class="layui-btn layui-btn-primary">其他</a>
+            <a th:href="@{/index}" class="layui-btn layui-btn-primary">全部</a>
         </div>
 
         <div class="imgs">
             <div class="img" th:if="0<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(0).getGoodsid()}">
-                    <img th:src="${imagesMap.get(goods.get(0).getGoodsid())}">
+                        <img th:src="${imagesMap.get(goods.get(0).getGoodsid())}">
                     <div>
                         <span class="name" th:text="${goods.get(0).getTitle()}"></span>
                         <span class="price" th:text="￥+${goods.get(0).getPrice()}"></span>
@@ -190,7 +193,7 @@
 
         </div>
 
-        <div class="bottom">联系方式：ktsrkw@163.com</div>
+        <div class="bottom">联系地址:ktsrkw@163.com</div>
 
     </div>
 

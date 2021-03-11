@@ -2,7 +2,7 @@ body{
 	width: 100%;
 	height: 100%;
 	/*background-color: black;*/
-	background-image: url(../pictures/welcome.jpg);
+	background-image: url(../pictures/welcome2.png);
 }
 
 .Ljjstyle1{
@@ -16,11 +16,11 @@ body{
 	left: 0;
 	right: 0;
 	bottom: 0;
-	font-family: 黑体;
+	font-family: "等线 Light";
     font-size: 102%;
 }
 
 p{
-	color: white;
+	color: black;
 	font-size: 200%
 }

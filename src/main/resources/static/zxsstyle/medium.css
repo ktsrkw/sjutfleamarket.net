@@ -22,10 +22,19 @@
 img{
     /* display: inline; */
     height: 75%;
-    /*width: 100%;*/
+    width: 100%;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
+
+
+/*.img-div{*/
+/*    !* display: inline; *!*/
+/*    height: 75%;*/
+/*    width: 100%;*/
+/*    border-top-left-radius: 20px;*/
+/*    border-top-right-radius: 20px;*/
+/*}*/
 
 /* .img div {
     margin: 10px 5px;
@@ -71,4 +80,8 @@ i.iconfont{
 .btn-color{
     background-color: #393D49;
     color: rgb(226, 226, 224);
+}
+
+.my-button-group{
+    font-family: 等线;
 }

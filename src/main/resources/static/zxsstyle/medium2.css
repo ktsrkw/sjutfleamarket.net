@@ -12,16 +12,17 @@
 	position: absolute;
 	left: 0;
 	right: 0;
+    font-family: 等线;
 }
 
 .div1{
-	font-family: 黑体;
 	font-size: 200%;
 	height: 25%;
 	width: 100%;
 	top: 15%;
     margin-top: 5%;
     margin-left: 4%;
+    font-family: "等线 Light";
 }
 
 .span1{
@@ -29,11 +30,11 @@
 }
 
 .div2{
-	font-family: 黑体;
 	font-size: 125%;
 	height: 20%;
 	width: 50%;
     margin-left: 4%;
+    font-family: "等线 Light";
 }
 
 .info{
