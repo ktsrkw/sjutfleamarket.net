@@ -5,6 +5,7 @@ import com.wt.pojo.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -65,5 +66,15 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public int deleteGoodsByGoodsId(int goodsid) {
         return goodsMapper.deleteGoodsByGoodsId(goodsid);
+    }
+
+    @Override
+    public int getUserIdByGoodsId(int goodsid) {
+        return goodsMapper.getUserIdByGoodsId(goodsid);
+    }
+
+    @Override
+    public int getGoodsIdByDateAndTitle(String date, String title) {
+        return goodsMapper.getGoodsIdByDateAndTitle(date,title);
     }
 }

@@ -68,7 +68,7 @@ public class RouterController {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         //通过session判断用户是否登录
-        //如果用户登陆了，把当前用户名带给前端
+        //如果用户登陆了，把当前用户名，userid带给前端
         if(session.getAttribute("username") != null){
             model.addAttribute("username",session.getAttribute("username").toString());
             model.addAttribute("userid",(Integer)session.getAttribute("userid"));
@@ -316,6 +316,12 @@ public class RouterController {
     //实现注销账户
     @GetMapping("/cancelaccount/{userid}")
     public String cancelAccount(@PathVariable int userid){
+        //判断当前用户是否有权限注销此账户
+        //拿到session，再取出session中存的的userid与传过来的参数做对比
+        Subject subject = SecurityUtils.getSubject();
+        if ((int)subject.getSession().getAttribute("userid") != userid){
+            return "error/intercept";
+        }
         //user发布有goods，删除user同时也删除goods
         //userid作为goods与comment的外键
         //goodsid作为images与comment的外键
@@ -339,7 +345,6 @@ public class RouterController {
         userService.deleteUserById(userid);
 
         //由于缓存的存在，所以效果不能马上看到，主动帮用户退出登录
-        Subject subject = SecurityUtils.getSubject();
         subject.logout();
 
         return "redirect:/welcome";
@@ -350,7 +355,6 @@ public class RouterController {
         //用户名,用户id拿到前台
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
-
         model.addAttribute("username",session.getAttribute("username"));
         model.addAttribute("userid",(Integer)session.getAttribute("userid"));
 
@@ -363,7 +367,8 @@ public class RouterController {
                                MultipartFile[] uploadFiles,
                                HttpServletRequest request){
         //获取当前时间
-        goods.setDeliveryTime(new Date());
+        Date date = new Date();
+        goods.setDeliveryTime(date);
 
         //userid的添加
         //之前执行登录代码的时候向session中添加了用户名与id
@@ -378,9 +383,12 @@ public class RouterController {
         goodsService.addAGoods(goods);
 
         //插入成功后，db会自动生成goodsid，需要拿到这个goodsid，以作为下面图片的外键
-        //根据商品名查库以拿到商品的id
-        Goods goods1 = goodsService.getGoodsByTitle(goods.getTitle());
-        int goodsid = goods1.getGoodsid();
+        //根据商品名和插入时间查库拿到商品的id
+        //java日期的格式化
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formatDate = format.format(date);
+        System.out.println(formatDate);
+        int goodsid = goodsService.getGoodsIdByDateAndTitle(formatDate,goods.getTitle());
 
         for(MultipartFile uploadFile : uploadFiles){
             //处理上传的图片
@@ -462,6 +470,13 @@ public class RouterController {
     @GetMapping("/updategoodsinfo/{goodsid}")
     public String toUpdateGoodsInfoPage(@PathVariable int goodsid,
                                         Model model){
+        //判断用户是否为此商品的发布者
+        //拿到session，再取出session中存的的userid与goodsid对应的userid做对比
+        Subject subject = SecurityUtils.getSubject();
+        if ((int)subject.getSession().getAttribute("userid") != goodsService.getUserIdByGoodsId(goodsid)){
+            return "error/intercept";
+        }
+
         //获取当前session中存的username，送到前台
         String username = (String) SecurityUtils.getSubject().getSession().getAttribute("username");
         model.addAttribute("username",username);
@@ -478,6 +493,14 @@ public class RouterController {
     public String updateGoodsInfo(Goods goods,
                                   MultipartFile[] uploadFiles,
                                   HttpServletRequest request){
+        //判断用户是否为此商品的发布者
+        //拿到session，再取出session中存的的userid与goodsid对应的userid做对比
+        Subject subject = SecurityUtils.getSubject();
+        if ((int)subject.getSession().getAttribute("userid") !=
+                goodsService.getUserIdByGoodsId(goods.getGoodsid())){
+            return "error/intercept";
+        }
+
         //修改数据库中商品的信息
         goodsService.updateGoods(goods);
 
@@ -528,6 +551,13 @@ public class RouterController {
     //处理下架商品的请求
     @GetMapping("/offshelf/{goodsid}")
     public String offShelfGoods(@PathVariable int goodsid){
+        //判断用户是否为此商品的发布者
+        //拿到session，再取出session中存的的userid与goodsid对应的userid做对比
+        Subject subject = SecurityUtils.getSubject();
+        if ((int)subject.getSession().getAttribute("userid") != goodsService.getUserIdByGoodsId(goodsid)){
+            return "error/intercept";
+        }
+
         //根据goodsid下架商品
         goodsService.offShelfGoodsByGoodsid(goodsid);
 
@@ -537,6 +567,13 @@ public class RouterController {
     //处理上架商品的请求
     @GetMapping("/onshelf/{goodsid}")
     public String onShelfGoods(@PathVariable int goodsid){
+        //判断用户是否为此商品的发布者
+        //拿到session，再取出session中存的的userid与goodsid对应的userid做对比
+        Subject subject = SecurityUtils.getSubject();
+        if ((int)subject.getSession().getAttribute("userid") != goodsService.getUserIdByGoodsId(goodsid)){
+            return "error/intercept";
+        }
+
         //根据goodsid上架商品
         goodsService.onShelfGoodsByGoodsid(goodsid);
 
@@ -546,6 +583,13 @@ public class RouterController {
     //处理删除商品的请求
     @GetMapping("/delete/{goodsid}")
     public String deleteGoodsByGoodsId(@PathVariable int goodsid){
+        //判断用户是否为此商品的发布者
+        //拿到session，再取出session中存的的userid与goodsid对应的userid做对比
+        Subject subject = SecurityUtils.getSubject();
+        if ((int)subject.getSession().getAttribute("userid") != goodsService.getUserIdByGoodsId(goodsid)){
+            return "error/intercept";
+        }
+
         //根据goodsid删除商品
         //goodsid作为comment与images的外键
         //先删除此goods的images与comment，再删除goods
@@ -555,5 +599,6 @@ public class RouterController {
 
         return "redirect:/managergoods";
     }
+
 
 }

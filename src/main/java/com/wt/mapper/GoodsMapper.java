@@ -2,8 +2,10 @@ package com.wt.mapper;
 
 import com.wt.pojo.Goods;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -41,5 +43,11 @@ public interface GoodsMapper {
 
     //根据goodsid删除商品
     int deleteGoodsByGoodsId(int goodsid);
+
+    //根据goodsid获得该goods的userid
+    int getUserIdByGoodsId(int goodsid);
+
+    //根据日期与名称得到商品id
+    int getGoodsIdByDateAndTitle(@Param("date") String date,@Param("title") String title);
 
 }

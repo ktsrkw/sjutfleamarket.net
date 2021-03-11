@@ -1,7 +1,9 @@
 package com.wt.service;
 
 import com.wt.pojo.Goods;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface GoodsService {
@@ -37,5 +39,11 @@ public interface GoodsService {
 
     //根据goodsid删除商品
     int deleteGoodsByGoodsId(int goodsid);
+
+    //根据goodsid获得该goods的userid
+    int getUserIdByGoodsId(int goodsid);
+
+    //根据日期与名称得到商品id
+    int getGoodsIdByDateAndTitle(String date, String title);
 
 }
