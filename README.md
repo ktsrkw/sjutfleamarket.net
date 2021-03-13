@@ -4,7 +4,6 @@
 
 ## 数据库建表SQL语句
 ```sql
-
 -- 创建项目数据库
 create database sjutfleamarket;
 use sjutfleamarket;
@@ -71,7 +70,6 @@ create table `comment`(
     foreign key(`userid`) references `user`(`userid`),
     foreign key(`goodsid`) references `goods`(`goodsid`)
 )engine=InnoDB default charset=utf8;
-
 ```
 
 ## 开发日志
