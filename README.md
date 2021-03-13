@@ -4,7 +4,6 @@
 
 ## 数据库建表SQL语句
 ```sql
-create database test;
 
 -- 创建项目数据库
 create database sjutfleamarket;
