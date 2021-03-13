@@ -10,6 +10,8 @@ import com.wt.service.CommentService;
 import com.wt.service.GoodsService;
 import com.wt.service.ImagesService;
 import com.wt.service.UserService;
+import net.coobird.thumbnailator.Thumbnailator;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -117,6 +119,14 @@ public class RouterController {
 
     @GetMapping("/goods/{goodsid}")
     public String goods(Model model, @PathVariable int goodsid) {
+        //如果用户登录，session中存的username与userid送到前台
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        if (session.getAttribute("username") != null){
+            model.addAttribute("username",(String)session.getAttribute("username"));
+            model.addAttribute("userid",(int)session.getAttribute("userid"));
+        }
+
         //根据goodsid拿到goods的信息
         Goods goods = goodsService.getGoodsById(goodsid);
         model.addAttribute("goods", goods);
@@ -220,17 +230,17 @@ public class RouterController {
         //检查两次输入的密码是否一致
         if(!user.getPassword().equals(passwordConfirm)){
             model.addAttribute("msg05","两次输入的密码不一致");
-            return "/register";
+            return "register";
         }
 
         //检查改用户名或邮箱是否已被占用
         if(userService.getUserByEmail(user.getEmail())!=null){
             model.addAttribute("msg05","该邮箱已被注册");
-            return "/register";
+            return "register";
         }
         if(userService.getUserByUsername(user.getUsername())!=null){
             model.addAttribute("msg05","该用户名已被占用");
-            return "/register";
+            return "register";
         }
 
 
@@ -247,6 +257,10 @@ public class RouterController {
 //            //如果没有输入生日，走插入语句2
 //            userService.insertAnUserWithoutBirthday(user);
 //        }
+
+        //为用户设置默认信息
+        user.setGender("保密");
+        user.setUniversity("上海工程技术大学");
 
         //利用前台传来的信息注册
         userService.insertAnUser(user);
@@ -291,6 +305,12 @@ public class RouterController {
 //            model.addAttribute("msg10","密码不能为空");
 //            return "admin";
 //        }
+        //判断当前用户是否有权限更新此用户信息
+        //拿到session，再取出session中存的的userid与传过来的参数做对比
+        Subject subject = SecurityUtils.getSubject();
+        if ((int)subject.getSession().getAttribute("userid") != user.getUserid()){
+            return "error/intercept";
+        }
 
         //检查两次输入的密码是否一致
         if(!user.getPassword().equals(passwordConfirm)){
@@ -393,7 +413,7 @@ public class RouterController {
         for(MultipartFile uploadFile : uploadFiles){
             //处理上传的图片
             try{
-                //处理上传文件的步骤
+//                //处理上传文件的步骤
 
                 //1、创建文件在服务器端的存放路径
                 String imgPath = "D:\\codes\\resources\\sjut-flea-market-user-upload";
@@ -402,13 +422,19 @@ public class RouterController {
                 //2、生成文件在服务器端存放的名字（避免重名）
                 //得到上传文件的后缀名（.jpg，.txt，.mp4 ...）
                 String fileSuffix= Objects.requireNonNull(uploadFile.getOriginalFilename())
-                        .substring(uploadFile.getOriginalFilename().lastIndexOf("."));
+                        .substring(uploadFile.getOriginalFilename().lastIndexOf(".") + 1);
                 //给文件准备好一个新的名字imgNewName：随机生成的UUID再加上前面取得的文件后缀名
-                String imgNewName= UUID.randomUUID().toString()+fileSuffix;
+                String imgNewName= UUID.randomUUID().toString() + "." + fileSuffix;
                 File uploadedFile = new File(imgDir+"/"+imgNewName);
 
+                //压缩上传
+                Thumbnails.of(uploadFile.getInputStream()).scale(0.2f)
+                        .outputFormat(fileSuffix).toFile(uploadedFile);
+
+
                 //3、上传
-                uploadFile.transferTo(uploadedFile);
+//                uploadFile.transferTo(uploadedFile);
+
 
                 //4、获取上传文件的访问路径
                 //这里的images是映射路径，实际不是存储在这的
@@ -520,13 +546,17 @@ public class RouterController {
                         //2、生成文件在服务器端存放的名字（避免重名）
                         //得到上传文件的后缀名（.jpg，.txt，.mp4 ...）
                         String fileSuffix= Objects.requireNonNull(uploadFile.getOriginalFilename())
-                                .substring(uploadFile.getOriginalFilename().lastIndexOf("."));
+                                .substring(uploadFile.getOriginalFilename().lastIndexOf(".") + 1);
                         //给文件准备好一个新的名字imgNewName：随机生成的UUID再加上前面取得的文件后缀名
-                        String imgNewName= UUID.randomUUID().toString()+fileSuffix;
+                        String imgNewName= UUID.randomUUID().toString() + "." + fileSuffix;
                         File uploadedFile = new File(imgDir+"/"+imgNewName);
 
+                        //压缩上传
+                        Thumbnails.of(uploadFile.getInputStream()).scale(0.2f)
+                                .outputFormat(fileSuffix).toFile(uploadedFile);
+
                         //3、上传
-                        uploadFile.transferTo(uploadedFile);
+//                        uploadFile.transferTo(uploadedFile);
 
                         //4、获取上传文件的访问路径
                         //这里的images是映射路径，实际不是存储在这的
@@ -598,6 +628,11 @@ public class RouterController {
         goodsService.deleteGoodsByGoodsId(goodsid);
 
         return "redirect:/managergoods";
+    }
+
+    @GetMapping("/introduction")
+    public String toIntroductionPage(){
+        return "introduction";
     }
 
 
