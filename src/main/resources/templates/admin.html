@@ -68,8 +68,6 @@
                     <div class="layui-input-block">
                         <input class="layui-input"  type="password" name="passwordConfirm" lay-verify="required" th:value="${user.getPassword()}">
                     </div>
-                    <!--下方为密码不一致的提示信息-->
-                    <!--                <div class="layui-form-mid layui-word-aux" th:text="${msg11}" style="color:red"></div>-->
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">生日</label>
@@ -108,7 +106,14 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">其他联系方式</label>
                     <div class="layui-input-block">
-                        <textarea name="oci" th:value="${user.getOci()}" class="layui-textarea"></textarea>
+                        <textarea name="oci" th:text="${user.getOci()}" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+<!--                    <label class="layui-form-label" th:text="${msg11}"></label>-->
+<!--                    <div class="layui-form-mid layui-word-aux" ></div>-->
+                    <div class="layui-input-block">
+                        <div class="layui-form-mid layui-word-aux" th:text="${msg11}"></div>
                     </div>
                 </div>
                 <div class="layui-form-item">

@@ -1,0 +1,61 @@
+.errorcode{
+	text-align: center;
+	margin-top: 17%;
+	font-size: 350%;
+}
+
+.errormessage{
+	text-align: center;
+	margin-top: 1%;
+	font-size: 250%;
+}
+
+.errorcode500{
+	text-align: center;
+	margin-top: 12%;
+	font-size: 350%;
+}
+
+.errormessage500{
+	text-align: center;
+	margin-top: 0.5%;
+	font-size: 250%;
+}
+
+.errorhint{
+	margin-top: 3%;
+	font-family: 等线;
+	font-size: 120%;
+	margin-left: 33%;
+}
+
+.myerrormessage{
+	text-align: center;
+	margin-top: 20%;
+	font-size: 250%;
+}
+
+body{
+	font-family: "等线 Light";
+}
+
+.registerstatus{
+	text-align: center;
+	margin-top: 17%;
+	font-size: 250%;
+}
+
+.registerhint{
+	margin-top: 3%;
+	/*font-family: 等线;*/
+	font-size: 170%;
+	text-align: center;
+}
+
+.registersuccess{
+	background-image: url("../pictures/welcome2.png");
+}
+
+/*a{
+	text-decoration: none;
+}*/

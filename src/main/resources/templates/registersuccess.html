@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>注册成功</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/Mycss/errorpages.css}">
 </head>
-<body>
-注册成功！
-<a th:href="@{/login}">现在登录</a>
+<body class="registersuccess">
+<div class="registerstatus">
+    注册成功！<a th:href="@{/login}">现在登录</a>
+</div>
+<div class="registerhint">
+    您可以到个人后台管理页面修改完善个人信息、发布闲置物品和管理自己发布的闲置物品
+</div>
 </body>
 </html>

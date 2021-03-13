@@ -24,8 +24,8 @@
         values (#{username},#{password},#{gender},#{university},#{email},#{tele},#{oci})
     </insert>
     <insert id="insertAnUser" parameterType="User">
-        insert into `user`(`username`,`password`,`email`)
-        values (#{username},#{password},#{email})
+        insert into `user`(`username`,`password`,`email`,`gender`,`university`)
+        values (#{username},#{password},#{email},#{gender},#{university})
     </insert>
 
     <select id="getUserById" resultType="User">
@@ -50,6 +50,6 @@
     </delete>
 
     <select id="getUserByEmail" parameterType="String" resultType="User">
-        select * from `user` where `email`=#{email}
+        select * from `user` where `email`=#{email} or `username`=#{email}
     </select>
 </mapper>

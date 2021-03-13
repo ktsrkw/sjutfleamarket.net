@@ -1,0 +1,77 @@
+body{
+	margin: 0;
+	background-image: url("../pictures/introductionbgi.png");
+}
+.information{
+	height: auto;
+	width: 60%;
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+.technology{
+	width: 16.7%;
+	font-size: 200%;
+	font-family: 华文细黑;
+}
+
+.mode{
+	width: 29%;
+}
+
+.back{
+	width: 42.3%;
+}
+
+.DB{
+	width: 25%;
+}
+
+.code{
+	width: 32.3%;
+	font-family: 华文细黑;
+	font-size: 200%;
+}
+
+.layui{
+	width: 17%;
+}
+
+.pagehelper{
+	width: 35%;
+}
+
+.material{
+	width: 28.6%;
+	font-family: 华文细黑;
+	font-size: 200%;
+}
+
+.declare{
+	width: 52%;
+}
+
+.team{
+	width: 32.3%;
+	font-family: 华文细黑;
+	font-size: 200%;
+}
+
+.front{
+	width: 35%;
+}
+
+.back1{
+	width: 32.8%;
+}
+
+.aspiration{
+	width: 24.8%;
+	font-family: 华文细黑;
+	font-size: 200%;
+	text-align: left;
+}
+
+.mistake{
+	margin-top: 5%;
+}

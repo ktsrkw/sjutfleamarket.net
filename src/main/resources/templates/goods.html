@@ -9,16 +9,51 @@
     <title>商品详情</title>
     <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}">
     <link rel="stylesheet" th:href="@{/zxsstyle/reset.css}">
-    <link rel="stylesheet" th:href="@{/zxsstyle/top2.css}">
+<!--    <link rel="stylesheet" th:href="@{/zxsstyle/top2.css}">-->
     <link rel="stylesheet" th:href="@{/zxsstyle/medium2.css}">
     <link rel="stylesheet" th:href="@{/zxsstyle/bottom.css}">
     <link rel="stylesheet" th:href="@{/pictures/font_2379782_la0j5lcuty9/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/zxsstyle/top.css}">
 </head>
 
 <body>
-    <div class="layui-nav top clearfix">
-        <span class="left">通用</span>
-    </div>
+<div class="layui-nav layui-bg-green top clearfix">
+        <span class="left">
+            <a th:href="@{/index}">
+                <div class="layui-logo">
+                    <i class="layui-icon layui-icon-dialogue" style="font-size: 160%; color: white;"></i>
+                    <i class="layui-icon layui-icon-cart-simple" style="font-size: 160%; color: white;"></i>
+                    <i class="layui-icon layui-icon-face-smile" style="font-size: 160%; color: white;"></i>
+                </div>
+            </a>
+        </span>
+
+    <span class="right">
+            <!--搜索框-->
+        <!--            <span class="right1">-->
+        <!--                &lt;!&ndash; <i class="layui-icon layui-icon-search"></i> &ndash;&gt;-->
+        <!--                <form class="search" action="">-->
+        <!--                    <input type="text">-->
+        <!--                    <a href="#" class="layui-btn layui-btn-sm log1">搜索</a>-->
+        <!--                </form>-->
+        <!--            </span>-->
+
+            <span><!--class="log"-->
+                <i class="layui-icon layui-icon-username"></i>
+                <!--登录后显示用户名与退出登录按钮，点击进入该user的后台管理界面-->
+                <span calss="log2" shiro:authenticated="">
+                    <a th:text="${username}" th:href="@{/user/}+${userid}" class="layui-btn layui-btn-sm"></a>
+                    <a th:href="@{/logout}" class="layui-btn layui-btn-sm">退出登录</a>
+                </span>
+                <!--未登录显示登录/注册按钮-->
+                <div class="layui-btn-group log2" shiro:notAuthenticated="">
+                    <a th:href="@{/login}" class="layui-btn layui-btn-sm">登录</a>
+                    <a th:href="@{/register}" class="layui-btn layui-btn-sm">注册</a>
+                </div>
+            </span>
+
+        </span>
+</div>
 
 
     <div class="medium">
@@ -46,7 +81,7 @@
                 <i class="layui-icon layui-icon-cellphone"></i>
                 [[${user.getTele()}]]
             </div>
-            <div class="infos">
+            <div class="infos clearfix">
                 <i class="layui-icon layui-icon-notice"></i>
                 [[${user.getOci()}]]
             </div>
@@ -63,7 +98,7 @@
                 </br>
                 </br>
                 <div class="time">
-                    <span th:text="${#dates.format(goods.getDeliveryTime(),'yyyy-MM-dd hh:mm')}"></span>
+                    <span th:text="${#dates.format(goods.getDeliveryTime(),'yyyy-MM-dd HH:mm')}"></span>
                 </div>
             </div>
 
@@ -88,7 +123,7 @@
                         </br>
                         </br>
                         <div class="time2">
-                            <span th:text="${#dates.format(comment.getCommentDeliveryTime(),'yyyy/MM/dd hh:mm')}"></span>
+                            <span th:text="${#dates.format(comment.getCommentDeliveryTime(),'yyyy/MM/dd HH:mm')}"></span>
                         </div>
 
                     </div>

@@ -27,14 +27,7 @@
         </span>
 
         <span class="right">
-            <!--搜索框-->
-<!--            <span class="right1">-->
-<!--                &lt;!&ndash; <i class="layui-icon layui-icon-search"></i> &ndash;&gt;-->
-<!--                <form class="search" action="">-->
-<!--                    <input type="text">-->
-<!--                    <a href="#" class="layui-btn layui-btn-sm log1">搜索</a>-->
-<!--                </form>-->
-<!--            </span>-->
+
 
             <span><!--class="log"-->
                 <i class="layui-icon layui-icon-username"></i>
@@ -56,113 +49,187 @@
 
     <div class="medium">
 
-        <div class="layui-btn-group button my-button-group">
-            <!-- btn-color-->
-            <a th:href="@{/goods/books}" class="layui-btn layui-btn-primary">书籍</a>
-            <a th:href="@{/goods/studysupplies}" class="layui-btn layui-btn-primary">学习用品</a>
-            <a th:href="@{/goods/transportation}" class="layui-btn layui-btn-primary">交通工具</a>
-            <a th:href="@{/goods/electronicproduct}" class="layui-btn layui-btn-primary">电子产品</a>
-            <a th:href="@{/goods/dailynecessities}" class="layui-btn layui-btn-primary">生活日用品</a>
-            <a th:href="@{/goods/clothing}" class="layui-btn layui-btn-primary">衣物</a>
-            <a th:href="@{/goods/othergoods}" class="layui-btn layui-btn-primary">其他</a>
-            <a th:href="@{/index}" class="layui-btn layui-btn-primary">全部</a>
+        <div class="nav">
+            <div class="layui-btn-group button my-button-group nav1">
+                <!-- btn-color-->
+                <a th:href="@{/goods/books}" class="layui-btn layui-btn-primary">书籍</a>
+                <a th:href="@{/goods/studysupplies}" class="layui-btn layui-btn-primary">学习用品</a>
+                <a th:href="@{/goods/transportation}" class="layui-btn layui-btn-primary">交通工具</a>
+                <a th:href="@{/goods/electronicproduct}" class="layui-btn layui-btn-primary">电子产品</a>
+                <a th:href="@{/goods/dailynecessities}" class="layui-btn layui-btn-primary">生活日用品</a>
+                <a th:href="@{/goods/clothing}" class="layui-btn layui-btn-primary">衣物</a>
+                <a th:href="@{/goods/othergoods}" class="layui-btn layui-btn-primary">其他</a>
+<!--                <a th:href="@{/index}" class="layui-btn layui-btn-primary">全部</a>-->
+
+
+            </div>
+            <div>
+            <span class="right1">
+                <!-- <i class="layui-icon layui-icon-search"></i> -->
+                <form class="search" th:action="@{/goods/search}">
+                    <input type="text " class="layui-input" placeholder="搜你想要的" required lay-verify="required" name="searchContent">
+                    <div class="search1">
+                        <button class="layui-btn layui-btn-primary log1" lay-submit type="submit">搜索</button>
+                    </div>
+
+                </form>
+            </span>
+            </div>
         </div>
+
 
         <div class="imgs">
             <div class="img" th:if="0<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(0).getGoodsid()}">
+                    <div class="img-div">
                         <img th:src="${imagesMap.get(goods.get(0).getGoodsid())}">
-                    <div>
-                        <span class="name" th:text="${goods.get(0).getTitle()}"></span>
-                        <span class="price" th:text="￥+${goods.get(0).getPrice()}"></span>
-                        <s>购入时￥[[${goods.get(0).getOriginalPrice()}]]</s>
                     </div>
+                    <div class="title1">
+                        <div class="name" th:text="${goods.get(0).getTitle()}"></div>
+                    </div>
+                    <div class="title2 clearfix">
+                        <div class="price" th:text="￥+${goods.get(0).getPrice()}"></div>
+                        <s class="img-info">购入时￥[[${goods.get(0).getOriginalPrice()}]]</s>
+                    </div>
+
+
                 </a>
             </div>
+
+
+
+
+
             <div class="img" th:if="1<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(1).getGoodsid()}">
+                    <div class="img-div">
                     <img th:src="${imagesMap.get(goods.get(1).getGoodsid())}">
-                    <div>
-                        <span class="name" th:text="${goods.get(1).getTitle()}"></span>
-                        <span class="price" th:text="￥+${goods.get(1).getPrice()}"></span>
-                        <s>购入时￥[[${goods.get(1).getOriginalPrice()}]]</s>
+                    </div>
+                    <div class="title1">
+                        <div class="name" th:text="${goods.get(1).getTitle()}"></div>
+                    </div>
+                    <div class="title2 clearfix">
+                        <div class="price" th:text="￥+${goods.get(1).getPrice()}"></div>
+                        <s class="img-info">购入时￥[[${goods.get(1).getOriginalPrice()}]]</s>
                     </div>
                 </a>
             </div>
 
             <div class="img" th:if="2<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(2).getGoodsid()}">
+                    <div class="img-div">
                     <img th:src="${imagesMap.get(goods.get(2).getGoodsid())}">
+                    </div>
                     <div>
-                        <span class="name" th:text="${goods.get(2).getTitle()}"></span>
-                        <span class="price" th:text="￥+${goods.get(2).getPrice()}"></span>
+                        <div class="title1">
+                        <div class="name" th:text="${goods.get(2).getTitle()}"></div>
+                        </div>
+                        <div class="title2 clearfix">
+                        <div class="price" th:text="￥+${goods.get(2).getPrice()}"></div>
                         <s>购入时￥[[${goods.get(2).getOriginalPrice()}]]</s>
+                        </div>
                     </div>
                 </a>
             </div>
 
             <div class="img" th:if="3<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(3).getGoodsid()}">
+                    <div class="img-div">
                     <img th:src="${imagesMap.get(goods.get(3).getGoodsid())}">
+                    </div>
                     <div>
-                        <span class="name" th:text="${goods.get(3).getTitle()}"></span>
-                        <span class="price" th:text="￥+${goods.get(3).getPrice()}"></span>
+                        <div class="title1">
+                        <div class="name" th:text="${goods.get(3).getTitle()}"></div>
+                        </div>
+                        <div class="title2 clearfix">
+                        <div class="price" th:text="￥+${goods.get(3).getPrice()}"></div>
                         <s>购入时￥[[${goods.get(3).getOriginalPrice()}]]</s>
+                        </div>
                     </div>
                 </a>
             </div>
 
             <div class="img" th:if="4<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(4).getGoodsid()}">
+                    <div class="img-div">
                     <img th:src="${imagesMap.get(goods.get(4).getGoodsid())}">
+                    </div>
                     <div>
-                        <span class="name" th:text="${goods.get(4).getTitle()}"></span>
-                        <span class="price" th:text="￥+${goods.get(4).getPrice()}"></span>
+                        <div class="title1">
+                        <div class="name" th:text="${goods.get(4).getTitle()}"></div>
+                        </div>
+                        <div class="title2 clearfix">
+                        <div class="price" th:text="￥+${goods.get(4).getPrice()}"></div>
                         <s>购入时￥[[${goods.get(4).getOriginalPrice()}]]</s>
+                        </div>
                     </div>
                 </a>
             </div>
 
             <div class="img" th:if="5<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(5).getGoodsid()}">
+                    <div class="img-div">
                     <img th:src="${imagesMap.get(goods.get(5).getGoodsid())}">
+                    </div>
                     <div>
-                        <span class="name" th:text="${goods.get(5).getTitle()}"></span>
-                        <span class="price" th:text="￥+${goods.get(5).getPrice()}"></span>
+                        <div class="title1">
+                        <div class="name" th:text="${goods.get(5).getTitle()}"></div>
+                        </div>
+                        <div class="title2 clearfix">
+                        <div class="price" th:text="￥+${goods.get(5).getPrice()}"></div>
                         <s>购入时￥[[${goods.get(5).getOriginalPrice()}]]</s>
+                        </div>
                     </div>
                 </a>
             </div>
 
             <div class="img" th:if="6<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(6).getGoodsid()}">
+                    <div class="img-div">
                     <img th:src="${imagesMap.get(goods.get(6).getGoodsid())}">
+                    </div>
                     <div>
-                        <span class="name" th:text="${goods.get(6).getTitle()}"></span>
-                        <span class="price" th:text="￥+${goods.get(6).getPrice()}"></span>
+                        <div class="title1">
+                        <div class="name" th:text="${goods.get(6).getTitle()}"></div>
+                        </div>
+                        <div class="title2 clearfix">
+                        <div class="price" th:text="￥+${goods.get(6).getPrice()}"></div>
                         <s>购入时￥[[${goods.get(6).getOriginalPrice()}]]</s>
+                    </div>
                     </div>
                 </a>
             </div>
 
             <div class="img" th:if="7<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(7).getGoodsid()}">
-                    <img th:src="${imagesMap.get(goods.get(7).getGoodsid())}">
+                    <div class="img-div">
+                        <img th:src="${imagesMap.get(goods.get(7).getGoodsid())}">
+                    </div>
                     <div>
-                        <span class="name" th:text="${goods.get(7).getTitle()}"></span>
-                        <span class="price" th:text="￥+${goods.get(7).getPrice()}"></span>
-                        <s>购入时￥[[${goods.get(7).getOriginalPrice()}]]</s>
+                        <div class="title1">
+                        <div class="name" th:text="${goods.get(7).getTitle()}"></div>
+                        </div>
+                        <div class="title2 clearfix">
+                        <div class="price" th:text="￥+${goods.get(7).getPrice()}"></div>
+                        <s class="img-info">购入时￥[[${goods.get(7).getOriginalPrice()}]]</s>
+                        </div>
                     </div>
                 </a>
             </div>
 
             <div class="img" th:if="8<${goods.size()}">
                 <a th:href="@{/goods/}+${goods.get(8).getGoodsid()}">
+                    <div class="img-div">
                     <img th:src="${imagesMap.get(goods.get(8).getGoodsid())}">
+                    </div>
                     <div>
-                        <span class="name" th:text="${goods.get(8).getTitle()}"></span>
-                        <span class="price" th:text="￥+${goods.get(8).getPrice()}"></span>
+                        <div class="title1">
+                        <div class="name" th:text="${goods.get(8).getTitle()}"></div>
+                        </div>
+                        <div class="title2 clearfix">
+                        <div class="price" th:text="￥+${goods.get(8).getPrice()}"></div>
                         <s>购入时￥[[${goods.get(8).getOriginalPrice()}]]</s>
+                    </div>
                     </div>
                 </a>
             </div>
@@ -181,7 +248,7 @@
             <a th:href="${reqPath}+'pageNum='+${pageInfo.pages}" class="layui-btn">尾页</a>
         </div>
         <hr class="layui-bg-green line">
-        <a href="#">
+        <a th:href="@{/introduction}" target="_blank">
             <div class="bottom">关于本站</div>
         </a>
 
@@ -196,7 +263,11 @@
         <div class="bottom">联系地址:ktsrkw@163.com</div>
 
     </div>
-
+    <script th:src="@{/layui/layui.all.js}"></script>
+    <script>
+        ;!function(){
+        }();
+    </script>
 
 </body>
 

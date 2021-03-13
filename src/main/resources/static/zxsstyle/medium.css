@@ -1,3 +1,11 @@
+.clearfix::before,
+.clearfix::after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
+
 .medium{
     margin: 1% 20%;
     float: left;
@@ -19,22 +27,72 @@
     overflow: hidden;
 }
 
-img{
-    /* display: inline; */
-    height: 75%;
-    width: 100%;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+/*.img-info{*/
+/*    margin-left: 1.5%;*/
+/*}*/
+
+.nav{
+    /*float: left;*/
+}
+
+.right1 {
+    position: absolute;
+    left: 63.5%;
+    bottom: 86.5%;
 }
 
 
-/*.img-div{*/
-/*    !* display: inline; *!*/
-/*    height: 75%;*/
-/*    width: 100%;*/
-/*    border-top-left-radius: 20px;*/
-/*    border-top-right-radius: 20px;*/
-/*}*/
+.log1 {
+    /*margin-bottom: 2.2%;*/
+    /*margin-bottom: 50%;*/
+}
+
+.search1{
+    position: absolute;
+    bottom: 1%;
+    left: 100%;
+}
+
+.search{
+    display: inline-block;
+    /*line-height: 50px;*/
+}
+
+img{
+    /* display: inline; */
+    /*height: 75%;*/
+    /*width: 100%;*/
+
+    /*border-top-left-radius: 20px;*/
+    /*border-top-right-radius: 20px;*/
+    /*position: relative;*/
+    /*left: 50%;*/
+    /*top: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    /*max-width: 100%;*/
+    /*max-height: 100%;*/
+    /*cursor: pointer;*/
+    width: 100%;
+    /*position: relative;*/
+}
+
+.title1{
+    /*float: left;*/
+    margin: 2%;
+    font-size: 140%;
+    /*border: black 1px solid;*/
+}
+
+.title2{
+    /*border: black 1px solid;*/
+}
+
+.img-div{
+    /* display: inline; */
+    height: 75%;
+    width: 100%;
+    overflow: hidden;
+}
 
 /* .img div {
     margin: 10px 5px;
@@ -42,21 +100,22 @@ img{
 } */
 
 .name{
-    margin: 2%;
-    float: left;
-    font-size: 140%;
+
 }
 
 .price{
-    float: right;
+    float: left;
     font-size: 140%;
-    margin: 2%;
+    /*margin: 1%;*/
+    /*margin-left:-20%;*/
+    margin-top: 3%;
 }
 
 s{
-    margin-top: 20%;
-    margin-left: -25%;
-    float: left;
+    margin-top: 4%;
+    margin-right:4%;
+    /*margin-left: -25%;*/
+    float: right;
 }
 
 .changePage{

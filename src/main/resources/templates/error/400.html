@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Error:400</title>
+	<meta charset="UTF-8">
+	<title>400</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/Mycss/errorpages.css}">
 </head>
 <body>
-<h1>
-    Error:400
-</h1>
+	<div class="errorcode">Error:400</div>
+	<div class="errormessage">请求语法出错，请不要在路径中加入非法字符</div>
 </body>
 </html>

@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Error:500</title>
+	<meta charset="UTF-8">
+	<title>500</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/Mycss/errorpages.css}">
 </head>
 <body>
-<h1>Error:500</h1>
+<div class="errorcode500">Error:500</div>
+<div class="errormessage500">以下操作可能会导致500错误</div>
+<div class="errorhint">
+	1.在填写表单时，输入的字符过长或不符合输入类型要求
+	</br>
+	</br>
+	2.图片上传速度较慢，请不要重复点击按钮
+	</br>
+	</br>
+	3.试图访问、修改、下架、上架或删除数据库中不存在的商品
+	</br>
+	</br>
+	</br>
+	若不是上面几点引发的500错误，希望您能通过邮件向我们反馈此错误
+	</br>
+	联系地址 : ktsrkw@163.com
+</div>
 </body>
 </html>

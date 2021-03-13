@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>图片上传失败</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/Mycss/errorpages.css}">
 </head>
 <body>
-<h1>商品已成功添加，图片上传失败，请重新上传</h1>
+<div class="myerrormessage">
+    商品已成功添加，图片上传失败，请到修改商品页面重新上传图片
+</div>
+<div class="registerhint">
+    <a th:href="@{/index}">回到首页</a>
+</div>
 </body>
 </html>

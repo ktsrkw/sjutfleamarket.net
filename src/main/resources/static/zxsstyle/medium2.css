@@ -45,6 +45,9 @@
     left: 120%;
     font-size: 15px;
     border-radius: 10px;
+    word-wrap:break-word;
+    word-break:break-all;
+    overflow: hidden;
 }
 
 img{

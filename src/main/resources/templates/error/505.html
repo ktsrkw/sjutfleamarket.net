@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Error:505</title>
+    <title>505</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/Mycss/errorpages.css}">
 </head>
 <body>
-<h1>Error:505 HTTP Version not supported</h1>
+<div class="errorcode">Error:505</div>
+<div class="errormessage">HTTP版本不受支持</div>
 </body>
 </html>

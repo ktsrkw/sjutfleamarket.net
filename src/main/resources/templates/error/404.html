@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Error:404</title>
+	<meta charset="UTF-8">
+	<title>404</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/Mycss/errorpages.css}">
 </head>
 <body>
-<h1>Error:404</h1>
+	<div class="errorcode">Error:404</div>
+	<div class="errormessage">您请求的页面不存在，请检查路径是否有误</div>
 </body>
 </html>
