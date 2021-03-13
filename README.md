@@ -2,6 +2,79 @@
 参加2021年上海市大学生计算机应用能力大赛的项目，已上线。
 使用到的技术：springboot\mybatis\shiro\thymeleaf\mysql
 
+# 数据库建表代码
+```sql
+create database test;
+
+-- 创建项目数据库
+create database sjutfleamarket;
+use sjutfleamarket;
+
+-- 创建用户表
+create table `user`(
+	-- 主键id无符号自增
+	`userid` int(7) unsigned auto_increment,
+    `username` varchar(20) not null,
+    `password` varchar(50) not null,
+    `birthday` datetime not null default '1900-01-01 00:00:00',
+    `university` varchar(30),
+    `email` varchar(50) not null,
+    `tele` varchar(20),
+    `oci` varchar(500),
+    -- 性别：男、女、保密
+    `gender` varchar(5),
+    primary key(`userid`)
+)engine=InnoDB default charset=utf8;
+
+-- 创建商品表
+create table `goods`(
+	-- 主键id无符号自增
+    `goodsid` int(8) unsigned auto_increment,
+    -- 外键userid
+    `userid` int(7) unsigned,
+    -- 联系属性
+    `deliveryTime` datetime not null default '1900-01-01 00:00:00',
+    `title` varchar(30) not null,
+    `description` varchar(1000),
+    -- 分类：
+    -- 学习用品
+    -- 交通工具
+    -- 生活日用品
+    -- 衣物
+    -- 电子产品
+    -- 书籍
+    -- 其他
+    `category` varchar(10) not null,
+    `originalPrice` float not null,
+    `price` float not null,
+    -- 状态：0为下架，1为未下架
+    `status` tinyint(1) not null,
+    primary key(`goodsid`),
+    foreign key(`userid`) references `user`(`userid`)
+)engine=InnoDB default charset=utf8;
+
+-- 创建图片表
+create table `images`(
+	`imgurl` varchar(200),
+    `goodsid` int(8) unsigned,
+    primary key(`imgurl`),
+    foreign key(`goodsid`) references `goods`(`goodsid`)
+)engine=InnoDB default charset=utf8;
+
+-- 创建评论表
+create table `comment`(
+	`commentid` int(11) unsigned auto_increment,
+    `userid` int(7) unsigned,
+    `goodsid` int(8) unsigned,
+    `commentDeliveryTime` datetime,
+    `content` varchar(200),
+    primary key(`commentid`),
+    foreign key(`userid`) references `user`(`userid`),
+    foreign key(`goodsid`) references `goods`(`goodsid`)
+)engine=InnoDB default charset=utf8;
+
+```
+
 ## 开发日志
 ### day01:
  0. 数据库在前几天已经设计实施好了
