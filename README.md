@@ -2,7 +2,10 @@
 参加2021年上海市大学生计算机应用能力大赛的项目，已上线。
 使用到的技术：springboot\mybatis\shiro\thymeleaf\mysql
 
-## 数据库建表SQL语句
+## 数据库
+### ER图
+![ER图](https://user-images.githubusercontent.com/53892437/113869964-e927c480-97e3-11eb-94d8-6d65b9019491.jpg)
+### 建表SQL语句
 ```sql
 -- 创建项目数据库
 create database sjutfleamarket;
