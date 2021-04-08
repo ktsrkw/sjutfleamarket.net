@@ -13,8 +13,8 @@ use sjutfleamarket;
 
 -- 创建用户表
 create table `user`(
-	-- 主键id无符号自增
-	`userid` int(7) unsigned auto_increment,
+    -- 主键id无符号自增
+    `userid` int(7) unsigned auto_increment,
     `username` varchar(20) not null,
     `password` varchar(50) not null,
     `birthday` datetime not null default '1900-01-01 00:00:00',
