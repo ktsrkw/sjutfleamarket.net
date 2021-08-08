@@ -1,5 +1,5 @@
 # sjutfleamarket.net
-参加2021年上海市大学生计算机应用能力大赛的项目，已上线。
+参加2021年上海市大学生计算机应用能力大赛的项目
 使用到的技术：springboot\mybatis\shiro\thymeleaf\mysql
 
 ## 数据库
